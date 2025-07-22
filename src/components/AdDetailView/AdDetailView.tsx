@@ -1,0 +1,122 @@
+import React, { useState } from 'react';
+import type { BaseAd, PropertyAd, VehicleAd, MyAdSummary } from '../../types/ads';
+import { formatPrice } from '../../utils/formatters';
+import './AdDetailView.css';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import EditAdForm from '../EditAdForm/EditAdForm';
+
+interface AdDetailViewProps {
+  ad: BaseAd | VehicleAd | PropertyAd | MyAdSummary;
+  onClose: () => void;
+  isMyAd: boolean;
+  onAdUpdated?: () => void;
+}
+
+const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUpdated }) => {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditSuccess = () => {
+    setIsEditing(false);
+    if (onAdUpdated) {
+      onAdUpdated();
+    }
+    onClose();
+  };
+
+  const renderAdSpecificDetails = () => {
+    if ('make' in ad) { // It's a VehicleAd
+      const vehicle = ad as VehicleAd;
+      return (
+        <>
+          <p><strong>Make:</strong> {vehicle.make}</p>
+          <p><strong>Model:</strong> {vehicle.model}</p>
+          <p><strong>Year:</strong> {vehicle.year}</p>
+          <p><strong>Mileage:</strong> {vehicle.mileage}</p>
+          <p><strong>Condition:</strong> {vehicle.condition}</p>
+          <p><strong>Transmission:</strong> {vehicle.transmission}</p>
+          <p><strong>Fuel Type:</strong> {vehicle.fuelType}</p>
+        </>
+      );
+    }
+    if ('bedrooms' in ad) { // It's a PropertyAd
+      const property = ad as PropertyAd;
+      return (
+        <>
+          <p><strong>Bedrooms:</strong> {property.bedrooms}</p>
+          <p><strong>Bathrooms:</strong> {property.bathrooms}</p>
+          <p><strong>Land Size:</strong> {property.landSize}</p>
+          <p><strong>Pet Friendly:</strong> {property.petFriendly ? 'Yes' : 'No'}</p>
+        </>
+      );
+    }
+    return null;
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleDeleteClick = async () => {
+    if (window.confirm('Are you sure you want to delete this ad?')) {
+      try {
+        const response = await fetch(`/api/delete_ad/${ad._id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete ad');
+        }
+
+        console.log('Ad deleted successfully');
+        if (onAdUpdated) {
+          onAdUpdated();
+        }
+        onClose();
+      } catch (error) {
+        console.error('Error deleting ad:', error);
+        alert('There was an error deleting the ad. Please try again.');
+      }
+    }
+  };
+
+  if (isEditing) {
+    return (
+      <EditAdForm
+        ad={ad as MyAdSummary}
+        onClose={() => setIsEditing(false)}
+        onSuccess={handleEditSuccess}
+      />
+    );
+  }
+
+  return (
+    <div className="ad-detail-view">
+      <div className="ad-detail-content">
+        <button className="close-button" onClick={onClose}>×</button>
+        <div className="ad-detail-header">
+          <h2>{ad.name}</h2>
+          {isMyAd && (
+            <div className="ad-actions">
+              <button className="action-btn edit-btn" onClick={handleEditClick}><FaEdit /></button>
+              <button className="action-btn delete-btn" onClick={handleDeleteClick}><FaTrash /></button>
+            </div>
+          )}
+        </div>
+        <div className="ad-detail-body">
+          <div className="ad-detail-image-container">
+            <img src={ad.adImageURL} alt={ad.name} />
+          </div>
+          <div className="ad-detail-info">
+            <p className="price">{formatPrice(ad.price)}</p>
+            <p><strong>Location:</strong> {ad.location}</p>
+            <p><strong>Description:</strong> {ad.description}</p>
+            {renderAdSpecificDetails()}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdDetailView;

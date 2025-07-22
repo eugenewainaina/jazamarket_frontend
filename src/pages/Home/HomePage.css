@@ -1,0 +1,12 @@
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-banner {
+  margin-bottom: 1rem;
+}
+
+.bottom-banner {
+  margin-top: 1rem;
+}

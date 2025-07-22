@@ -1,0 +1,116 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.login-main {
+    flex: 1;
+    background-color: #f8f9fa;
+    padding: 2rem 1rem;
+}
+
+.breadcrumb {
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+}
+
+.breadcrumb span {
+    color: #6c757d;
+}
+
+.breadcrumb h2 {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    color: #343a40;
+}
+
+.login-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.new-customer h3, .login-form-container h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #343a40;
+}
+
+.new-customer p {
+    color: #6c757d;
+}
+
+.new-customer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-form-container .form-group {
+    margin-bottom: 1rem;
+}
+
+.login-form-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 35px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    margin-bottom: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.login-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #343a40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #23272b;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+}
+
+.input-with-icon input.invalid {
+  border-color: #dc3545;
+}

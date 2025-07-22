@@ -1,0 +1,77 @@
+.ad-detail-view {
+    grid-column: 1 / -1;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .ad-detail-content {
+    position: relative;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .ad-detail-body {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .ad-detail-image-container {
+    flex: 1;
+  }
+  
+  .ad-detail-image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .ad-detail-info {
+    flex: 2;
+  }
+  
+  .ad-detail-info h2 {
+    margin-top: 0;
+  }
+  
+  .ad-detail-info .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00aaff;
+    margin-bottom: 1rem;
+  }
+  
+  .ad-detail-info p {
+    margin: 0.5rem 0;
+  }
+  

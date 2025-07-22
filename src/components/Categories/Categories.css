@@ -1,0 +1,95 @@
+.categories-container {
+  padding: 2rem 2rem; /* Add more horizontal padding */
+  text-align: left; /* Align title to the left */
+  background-color: #f8f9fa; /* Light background for the whole section */
+}
+
+.categories-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center; /* Center the heading */
+  position: relative; /* For potential decorative elements */
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Adjust min-width for the new layout */
+  gap: 0.8rem; /* Reduce gap for less vertical space */
+}
+
+.category-item-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex; /* Ensure the link fills the grid cell and allows child to stretch */
+}
+
+.category-item {
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 8px; /* Rounded corners */
+  display: flex;
+  flex-direction: row; /* Horizontal layout */
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  width: 100%; /* Ensure the item fills the link */
+}
+
+.category-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.category-image {
+  width: 50px; /* Square image */
+  height: 50px; /* Square image */
+  object-fit: cover; /* Change from contain to cover */
+  margin-right: 1rem; /* Space between image and text */
+  border-radius: 4px;
+  background-color: #f8f9fa; /* Fallback background for images */
+}
+
+.category-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .categories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .categories-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+  }
+
+  .category-item {
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center;
+    text-align: center;
+    padding: 0.8rem;
+  }
+
+  .category-image {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .category-name {
+    font-size: 0.9rem;
+  }
+}
