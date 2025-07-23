@@ -41,7 +41,10 @@ const TopBar: React.FC = () => {
   const handleLogout = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(createApiUrl("/logout"), { method: "POST" });
+      const response = await fetch(createApiUrl("/logout"), { 
+        method: "POST",
+        credentials: 'include',
+      });
       if (response.ok) {
         eraseCookie("logged_in");
         setIsLoggedIn(false);

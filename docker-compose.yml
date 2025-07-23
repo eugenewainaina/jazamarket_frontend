@@ -50,7 +50,8 @@ services:
       - NODE_ENV=production
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
-      - N8N_CORS_ALLOWED_ORIGINS=https://${DOMAIN_NAME}
+      - N8N_CORS_ALLOWED_ORIGIN=https://${DOMAIN_NAME}
+      - N8N_DEFAULT_CORS=TRUE
     volumes:
       - n8n_data:/home/node/.n8n
       - ./local-files:/files

@@ -131,6 +131,7 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
     try {
       const response = await fetch(createApiUrl('/post_ad'), {
         method: 'POST',
+        credentials: 'include',
         body: postData,
         // Note: Don't set 'Content-Type' header when using FormData,
         // the browser will set it automatically with the correct boundary.

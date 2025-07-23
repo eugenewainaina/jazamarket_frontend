@@ -38,7 +38,9 @@ export const ProfileProvider: React.FC<{ children: ReactNode }> = ({ children })
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(createApiUrl('/profile'));
+      const response = await fetch(createApiUrl('/profile'), {
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
