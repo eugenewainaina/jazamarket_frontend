@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext, type ReactNode } from 'react';
+import { createApiUrl } from '../utils/api';
 
 // Define the shape of the profile data from the API
 export interface ProfileData {
@@ -37,7 +38,7 @@ export const ProfileProvider: React.FC<{ children: ReactNode }> = ({ children })
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/profile');
+      const response = await fetch(createApiUrl('/profile'));
 
       if (!response.ok) {
         const errorData = await response.json();

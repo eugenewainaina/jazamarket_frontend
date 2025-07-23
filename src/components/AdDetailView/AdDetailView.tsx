@@ -4,6 +4,7 @@ import { formatPrice } from '../../utils/formatters';
 import './AdDetailView.css';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditAdForm from '../EditAdForm/EditAdForm';
+import { createApiUrl } from '../../utils/api';
 
 interface AdDetailViewProps {
   ad: BaseAd | VehicleAd | PropertyAd | MyAdSummary;
@@ -59,7 +60,7 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
   const handleDeleteClick = async () => {
     if (window.confirm('Are you sure you want to delete this ad?')) {
       try {
-        const response = await fetch(`/api/delete_ad/${ad._id}`, {
+        const response = await fetch(createApiUrl(`/delete_ad/${ad._id}`), {
           method: 'DELETE',
           credentials: 'include',
         });

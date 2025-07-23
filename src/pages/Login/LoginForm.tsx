@@ -5,6 +5,7 @@ import { validateEmail } from '../../validation/validators';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { formatString } from '../../utils/formatters';
 import { setCookie } from '../../utils/cookies';
+import { createApiUrl } from '../../utils/api';
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -72,7 +73,7 @@ const LoginForm: React.FC = () => {
     };
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(createApiUrl('/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

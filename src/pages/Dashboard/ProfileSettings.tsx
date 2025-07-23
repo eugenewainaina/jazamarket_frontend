@@ -10,6 +10,7 @@ import {
   validateWhatsapp,
   validateUsername,
 } from '../../validation/validators';
+import { createApiUrl } from '../../utils/api';
 
 const ProfileSettings: React.FC = () => {
   const { profile, loading, error, fetchProfile } = useProfile();
@@ -200,7 +201,7 @@ const ProfileSettings: React.FC = () => {
     }
 
     try {
-        const response = await fetch('/api/edit_profile', {
+        const response = await fetch(createApiUrl('/edit_profile'), {
             method: 'POST',
             body: payload,
         });

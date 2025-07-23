@@ -5,6 +5,7 @@ import AdDetailView from "../../components/AdDetailView/AdDetailView";
 import Banner from "../../components/Banner/Banner";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import type { BaseAd, VehicleAd, PropertyAd } from "../../types/ads";
+import { createApiUrl } from "../../utils/api";
 import "./AdCategoryPage.css";
 
 const AdCategoryPage: React.FC = () => {
@@ -19,7 +20,7 @@ const AdCategoryPage: React.FC = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `/api/2bf73dc1-0fe5-4e0b-aa4b-10f32ede6f4a/${categoryName}`
+          createApiUrl(`/2bf73dc1-0fe5-4e0b-aa4b-10f32ede6f4a/${categoryName}`)
         );
         if (!response.ok) {
           throw new Error("Failed to fetch ads");

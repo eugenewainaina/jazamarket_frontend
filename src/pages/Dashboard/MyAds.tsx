@@ -5,6 +5,7 @@ import type { MyAdSummary } from '../../types/ads';
 import Ad from '../../components/Ad/Ad';
 import AdDetailView from '../../components/AdDetailView/AdDetailView';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import { createApiUrl } from '../../utils/api';
 
 const MyAds: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,7 @@ const MyAds: React.FC = () => {
   const fetchAds = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/my_ads', {
+      const response = await fetch(createApiUrl('/my_ads'), {
         credentials: 'include',
       });
       if (!response.ok) {

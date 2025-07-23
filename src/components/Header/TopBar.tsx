@@ -3,6 +3,7 @@ import { FaGlobe, FaUser, FaPencilAlt, FaSignOutAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getCookie, eraseCookie } from "../../utils/cookies";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { createApiUrl } from "../../utils/api";
 import "./TopBar.css";
 
 const TopBar: React.FC = () => {
@@ -40,7 +41,7 @@ const TopBar: React.FC = () => {
   const handleLogout = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/logout", { method: "POST" });
+      const response = await fetch(createApiUrl("/logout"), { method: "POST" });
       if (response.ok) {
         eraseCookie("logged_in");
         setIsLoggedIn(false);

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { MyAdSummary } from '../../types/ads';
 import { categories, vehicleSubcategories, propertySubcategories } from '../../data/categories';
+import { createApiUrl } from '../../utils/api';
 import './EditAdForm.css';
 
 interface EditAdFormProps {
@@ -55,7 +56,7 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
     }
 
     try {
-      const response = await fetch(`/api/edit_ad?ad_id=${ad._id}`, {
+      const response = await fetch(createApiUrl(`/edit_ad?ad_id=${ad._id}`), {
         method: 'POST',
         credentials: 'include',
         body: postData,

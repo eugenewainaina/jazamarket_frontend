@@ -5,6 +5,7 @@ import { validateName, validateEmail, validatePassword } from '../../validation/
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { formatString } from '../../utils/formatters';
 import { setCookie } from '../../utils/cookies';
+import { createApiUrl } from '../../utils/api';
 
 const SignUpForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -100,7 +101,7 @@ const SignUpForm: React.FC = () => {
     };
 
     try {
-      const response = await fetch('/api/sign_up', {
+      const response = await fetch(createApiUrl('/sign_up'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

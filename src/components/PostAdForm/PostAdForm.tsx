@@ -4,6 +4,7 @@ import { categories, vehicleSubcategories, propertySubcategories } from '../../d
 import { validateString, validatePrice } from '../../validation/validators';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { formatString, formatNumberString } from '../../utils/formatters';
+import { createApiUrl } from '../../utils/api';
 
 interface PostAdFormProps {
   onClose: () => void;
@@ -128,7 +129,7 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
     }
 
     try {
-      const response = await fetch('/api/post_ad', {
+      const response = await fetch(createApiUrl('/post_ad'), {
         method: 'POST',
         body: postData,
         // Note: Don't set 'Content-Type' header when using FormData,
