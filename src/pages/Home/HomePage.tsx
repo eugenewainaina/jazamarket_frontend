@@ -1,21 +1,30 @@
 import React from 'react';
 import Categories from '../../components/Categories/Categories';
 import Banner from '../../components/Banner/Banner';
+import { useSEO } from '../../hooks/useSEO';
+import { categoryNameToKey } from '../../utils/formatters';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
+  // Apply default SEO metadata for home page
+  useSEO({
+    customTitle: "JazaMarket - Buy & Sell in Kenya | Kenya's Trusted Marketplace",
+    customDescription: "Kenya's leading marketplace for buying and selling. Find great deals on vehicles, electronics, property, jobs, and more. Join thousands of buyers and sellers on JazaMarket.",
+    ogUrl: window.location.href,
+  });
+
   return (
     <div className="homepage-container">
       <Banner
         imageUrl="/banners/top-home-banner.png"
-        linkTo="/categories/Vehicles"
+        linkTo={`/category/${categoryNameToKey('Vehicles')}`}
         altText="Top Promotional Banner"
         className="top-banner"
       />
       <Categories />
       <Banner
         imageUrl="/banners/bottom-home-banner.png"
-        linkTo="/categories/Property%20&%20Rentals"
+        linkTo={`/category/${categoryNameToKey('Property & Rentals')}`}
         altText="Bottom Promotional Banner"
         className="bottom-banner"
       />

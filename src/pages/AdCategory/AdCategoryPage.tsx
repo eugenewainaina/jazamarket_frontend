@@ -6,6 +6,8 @@ import Banner from "../../components/Banner/Banner";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import type { BaseAd, VehicleAd, PropertyAd } from "../../types/ads";
 import { createApiUrl } from "../../utils/api";
+import { categoryNameToKey, categoryKeyToName } from "../../utils/formatters";
+import { useSEO } from "../../hooks/useSEO";
 import "./AdCategoryPage.css";
 
 const AdCategoryPage: React.FC = () => {
@@ -15,12 +17,22 @@ const AdCategoryPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAd, setSelectedAd] = useState<BaseAd | VehicleAd | PropertyAd | null>(null);
 
+  // Convert category name from URL to category key for SEO
+  const categoryKey = categoryName ? categoryNameToKey(categoryName) : undefined;
+  const displayCategoryName = categoryKey ? categoryKeyToName(categoryKey) : categoryName || '';
+
+  // Apply SEO metadata for this category
+  useSEO({
+    category: categoryKey,
+    ogUrl: window.location.href,
+  });
+
   useEffect(() => {
     const fetchAds = async () => {
       try {
         setLoading(true);
         const response = await fetch(
-          createApiUrl(`/2bf73dc1-0fe5-4e0b-aa4b-10f32ede6f4a/${categoryName}`)
+          createApiUrl(`/2bf73dc1-0fe5-4e0b-aa4b-10f32ede6f4a/${displayCategoryName}`)
         );
         if (!response.ok) {
           throw new Error("Failed to fetch ads");
@@ -36,10 +48,10 @@ const AdCategoryPage: React.FC = () => {
       }
     };
 
-    if (categoryName) {
+    if (displayCategoryName) {
       fetchAds();
     }
-  }, [categoryName]);
+  }, [displayCategoryName]);
 
   const handleAdClick = (ad: BaseAd | VehicleAd | PropertyAd) => {
     if (selectedAd && selectedAd._id === ad._id) {
@@ -68,7 +80,7 @@ const AdCategoryPage: React.FC = () => {
         altText="Top of Category Banner"
         linkTo="/some-link"
       />
-      <h1 className="category-title">{categoryName}</h1>
+      <h1 className="category-title">{displayCategoryName}</h1>
       <div className="ads-grid">
         {ads.length > 0 ? (
           ads.map((ad) => (

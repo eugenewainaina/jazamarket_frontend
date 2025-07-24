@@ -26,3 +26,46 @@ export const formatPrice = (price: string | number) => {
   }
   return `KSh ${numericPrice.toLocaleString()}`;
 };
+
+/**
+ * Converts category name to URL-friendly key
+ * Example: "Property & Rentals" -> "property-rentals"
+ */
+export const categoryNameToKey = (categoryName: string): string => {
+  return categoryName
+    .toLowerCase()
+    .replace(/&/g, '') // Remove &
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/[^a-z0-9-]/g, '') // Remove special characters except hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+    .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+};
+
+/**
+ * Converts URL-friendly key back to category name
+ * Example: "property-rentals" -> "Property & Rentals"
+ */
+export const categoryKeyToName = (key: string): string => {
+  const keyToCategoryMap: Record<string, string> = {
+    'vehicles': 'Vehicles',
+    'property-rentals': 'Property & Rentals',
+    'electronics': 'Electronics',
+    'jobs': 'Jobs',
+    'fashion': 'Fashion',
+    'babies-kids': 'Babies & Kids',
+    'furniture-appliances': 'Furniture & Appliances',
+    'computers': 'Computers',
+    'seeking-work-cvs': 'Seeking Work - CVs',
+    'car-parts-accessories': 'Car Parts & Accessories',
+    'services': 'Services',
+    'animals-pets': 'Animals & Pets',
+    'phones-accessories': 'Phones & Accessories',
+    'health-beauty': 'Health & Beauty',
+    'repair-construction': 'Repair & Construction',
+    'agriculture-food': 'Agriculture & Food',
+    'entertainment-sports': 'Entertainment & Sports',
+    'commercial-equipment-tools': 'Commercial Equipment & Tools'
+  };
+  
+  return keyToCategoryMap[key] || key;
+};
