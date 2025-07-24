@@ -43,6 +43,7 @@ services:
       - traefik.http.middlewares.n8n-headers.headers.STSIncludeSubdomains=true
       - traefik.http.middlewares.n8n-headers.headers.STSPreload=true
       - traefik.http.routers.n8n.middlewares=n8n-headers@docker
+      - traefik.http.routers.n8n.headers.customResponseHeaders=Access-Control-Allow-Origin:*
     environment:
       - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
       - N8N_PORT=5678
@@ -51,7 +52,6 @@ services:
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - N8N_CORS_ALLOWED_ORIGIN=https://${DOMAIN_NAME}
-      - N8N_DEFAULT_CORS=TRUE
       - N8N_SECURE_COOKIE=FALSE
       - N8N_SAMESITE_COOKIE=none
     volumes:
