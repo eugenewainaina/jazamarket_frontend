@@ -87,7 +87,7 @@ const LoginForm: React.FC = () => {
         
         // Set the jazamarket_token cookie from the response
         if (data.token) {
-          setCookie('jazamarket_token', data.token, 1);
+          setCookie('jazamarket_token', data.token, 3650); // 10 years
         }
         setCookie('logged_in', 'true', 1);
         navigate('/');
