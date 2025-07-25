@@ -10,7 +10,7 @@ export const setCookie = (name: string, value: string, days: number) => {
   const isSecure = window.location.protocol === 'https:';
   const secureFlag = isSecure ? '; secure' : '';
   
-  document.cookie = name + "=" + (value || "") + expires + "; path=/; samesite=lax" + secureFlag;
+  document.cookie = name + "=" + (value || "") + expires + "; path=/; domain=.jazamarket.com; samesite=lax" + secureFlag;
 };
 
 export const getCookie = (name: string): string | null => {
