@@ -47,6 +47,7 @@ const TopBar: React.FC = () => {
       });
       if (response.ok) {
         eraseCookie("logged_in");
+        eraseCookie("jazamarket_token");
         setIsLoggedIn(false);
         navigate("/");
       } else {
