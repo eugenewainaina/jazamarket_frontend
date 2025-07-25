@@ -82,8 +82,13 @@ const LoginForm: React.FC = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
         console.log('Login successful');
-        // The backend sets jazamarket_token cookie, we just set logged_in flag
+        
+        // Set the jazamarket_token cookie from the response
+        if (data.token) {
+          setCookie('jazamarket_token', data.token, 1);
+        }
         setCookie('logged_in', 'true', 1);
         navigate('/');
       } else {

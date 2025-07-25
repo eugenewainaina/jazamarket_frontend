@@ -49,7 +49,7 @@ services:
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - N8N_CORS_ALLOWED_ORIGIN=https://${DOMAIN_NAME}
-      - N8N_SECURE_COOKIE=FALSE
+      - N8N_SECURE_COOKIE=TRUE
       - N8N_SAMESITE_COOKIE=none
     volumes:
       - n8n_data:/home/node/.n8n

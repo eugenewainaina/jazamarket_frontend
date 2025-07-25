@@ -110,7 +110,13 @@ const SignUpForm: React.FC = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
         console.log('Signup successful');
+        
+        // Set the jazamarket_token cookie from the response
+        if (data.token) {
+          setCookie('jazamarket_token', data.token, 1);
+        }
         setCookie('logged_in', 'true', 1); // Set cookie on successful signup
         navigate('/'); // Redirect to homepage on successful signup
       } else {
