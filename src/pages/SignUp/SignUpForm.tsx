@@ -211,7 +211,7 @@ const SignUpForm: React.FC = () => {
           </div>
           {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
         </div>
-        <div className="form-group terms">
+        <div className="form-group-checkbox">
           <input
             type="checkbox"
             id="terms"

@@ -35,6 +35,8 @@
     padding: 2rem;
     border: 1px solid #dee2e6;
     border-radius: 5px;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .new-customer h3, .login-form-container h3 {
@@ -52,8 +54,16 @@
     text-decoration: none;
 }
 
+.login-form-container {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
 .login-form-container .form-group {
     margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .login-form-container label {
@@ -62,23 +72,34 @@
     color: #495057;
 }
 
-.input-with-icon {
+.login-form-container .input-with-icon {
     position: relative;
-}
-
-.input-with-icon svg {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6c757d;
-}
-
-.input-with-icon input {
     width: 100%;
-    padding: 0.75rem 0.75rem 0.75rem 35px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-form-container .input-with-icon svg {
+    position: absolute !important;
+    left: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #6c757d !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    margin-top: 0 !important;
+}
+
+.login-form-container .input-with-icon input {
+    width: 100% !important;
+    padding: 0.75rem 0.75rem 0.75rem 35px !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+}
+
+.login-form-container .input-with-icon input[type="password"] {
+    padding-right: 40px !important;
 }
 
 .forgot-password {
@@ -113,4 +134,29 @@
 
 .input-with-icon input.invalid {
   border-color: #dc3545;
+}
+
+.login-form-container .password-toggle-icon {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    cursor: pointer !important;
+    color: #6c757d !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+    margin-top: 0 !important;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .login-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .login-form-container .input-with-icon input {
+        padding: 0.75rem 0.75rem 0.75rem 35px !important;
+    }
 }

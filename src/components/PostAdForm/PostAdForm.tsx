@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './PostAdForm.css';
 import { categories, vehicleSubcategories, propertySubcategories } from '../../data/categories';
+import { kenyanCounties } from '../../data/counties';
 import { validateString, validatePrice } from '../../validation/validators';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { formatString, formatNumberString } from '../../utils/formatters';
@@ -36,6 +37,7 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
   const [errors, setErrors] = useState({
     name: '',
     price: '',
+    location: '',
     server: '',
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +51,9 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
         break;
       case 'price':
         error = validatePrice(value);
+        break;
+      case 'location':
+        error = value ? '' : 'Location is required';
         break;
       default:
         break;
@@ -92,9 +97,10 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
 
     const nameError = validateString(formData.name, 'Name');
     const priceError = validatePrice(formData.price);
+    const locationError = formData.location ? '' : 'Location is required';
 
-    if (nameError || priceError) {
-      setErrors({ name: nameError, price: priceError, server: '' });
+    if (nameError || priceError || locationError) {
+      setErrors({ name: nameError, price: priceError, location: locationError, server: '' });
       return;
     }
 
@@ -258,14 +264,23 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="location">Location</label>
-            <input
-              type="text"
+            <label htmlFor="location">Location *</label>
+            <select
               id="location"
               name="location"
               value={formData.location}
               onChange={handleChange}
-            />
+              className={errors.location ? 'invalid' : ''}
+              required
+            >
+              <option value="">Select County</option>
+              {kenyanCounties.map((county) => (
+                <option key={county} value={county}>
+                  {county}
+                </option>
+              ))}
+            </select>
+            {errors.location && <span className="error-message">{errors.location}</span>}
           </div>
 
           <div className="form-group">

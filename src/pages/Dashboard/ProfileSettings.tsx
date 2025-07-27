@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProfileSettings.css';
 import CountryCodes from '../../components/CountryCodes/CountryCodes';
+import { kenyanCounties } from '../../data/counties';
 import { useProfile } from '../../context/ProfileContext';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import {
@@ -146,7 +147,7 @@ const ProfileSettings: React.FC = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     validateField(name, value);
@@ -248,7 +249,14 @@ const ProfileSettings: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="address">Address</label>
-          <input type="text" id="address" name="address" placeholder="Address" value={formData.address} onChange={handleChange} />
+          <select id="address" name="address" value={formData.address} onChange={handleChange}>
+            <option value="">Select your county...</option>
+            {kenyanCounties.map((county) => (
+              <option key={county} value={county}>
+                {county}
+              </option>
+            ))}
+          </select>
           {errors.address && <span className="error-text">{errors.address}</span>}
         </div>
         <div className="form-group">

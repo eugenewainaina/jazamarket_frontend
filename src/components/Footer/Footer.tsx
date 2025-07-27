@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaHome, FaMapMarkerAlt, FaPhone, FaEnvelope, FaFacebookF, FaTwitter, FaGooglePlusG, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 import './Footer.css';
 
@@ -9,23 +10,23 @@ const Footer: React.FC = () => {
         <div className="footer-column">
           <h4>INFORMATION</h4>
           <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Safety Tips</a></li>
-            <li><a href="#">Intellectual Property Rights</a></li>
-            <li><a href="#">Frequently Asked Questions</a></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/privacy">Privacy Policy</Link></li>
+            <li><Link to="/terms">Terms & Conditions</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/safety">Safety Tips</Link></li>
+            <li><Link to="/intellectual-property">Intellectual Property Rights</Link></li>
+            <li><Link to="/faq">Frequently Asked Questions</Link></li>
           </ul>
         </div>
         <div className="footer-column">
           <h4>USEFUL LINKS</h4>
           <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Myads</a></li>
-            <li><a href="#">My Setting</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Blog</a></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><Link to="/dashboard/my_ads">My Ads</Link></li>
+            <li><Link to="/dashboard/profile_settings">My Settings</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/blog">Blog</Link></li>
           </ul>
         </div>
         <div className="footer-column">

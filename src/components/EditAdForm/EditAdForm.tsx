@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { MyAdSummary } from '../../types/ads';
 import { categories, vehicleSubcategories, propertySubcategories } from '../../data/categories';
+import { kenyanCounties } from '../../data/counties';
 import { createApiUrl } from '../../utils/api';
 import './EditAdForm.css';
 
@@ -137,7 +138,14 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
           <textarea name="description" value={formData.description} onChange={handleInputChange}></textarea>
 
           <label>Location:</label>
-          <input type="text" name="location" value={formData.location} onChange={handleInputChange} />
+          <select name="location" value={formData.location} onChange={handleInputChange}>
+            <option value="">Select County</option>
+            {kenyanCounties.map((county) => (
+              <option key={county} value={county}>
+                {county}
+              </option>
+            ))}
+          </select>
 
           <label>Price:</label>
           <input type="text" name="price" value={formData.price} onChange={handleInputChange} />
