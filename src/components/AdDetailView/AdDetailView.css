@@ -75,3 +75,78 @@
     margin: 0.5rem 0;
   }
   
+  .ad-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .ad-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  
+  .action-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+  }
+  
+  .edit-btn {
+    color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .edit-btn:hover {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .delete-btn {
+    color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .delete-btn:hover {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .action-btn span {
+    font-weight: 500;
+  }
+  
+  /* Responsive design for mobile */
+  @media (max-width: 768px) {
+    .ad-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .ad-actions {
+        align-self: flex-end;
+    }
+    
+    .action-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .ad-detail-body {
+        flex-direction: column;
+    }
+}

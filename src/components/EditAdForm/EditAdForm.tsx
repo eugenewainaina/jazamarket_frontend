@@ -16,6 +16,8 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
   const [adImage, setAdImage] = useState<File | null>(null);
   const [removeAdImage, setRemoveAdImage] = useState(false);
   const [isExtraFieldsVisible, setIsExtraFieldsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -40,21 +42,47 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const postData = new FormData();
+    setIsLoading(true);
+    setStatusMessage('');
     
+    const postData = new FormData();
+    const changedFields: string[] = [];
+    
+    // Only append fields that have changed from the original ad
     Object.keys(formData).forEach(key => {
         const adKey = key as keyof MyAdSummary;
-        if (formData[adKey] !== undefined && formData[adKey] !== null) {
-            postData.append(key, String(formData[adKey]));
+        const currentValue = formData[adKey];
+        const originalValue = ad[adKey];
+        
+        // Check if the value has changed
+        if (currentValue !== originalValue && currentValue !== undefined && currentValue !== null) {
+            postData.append(key, String(currentValue));
+            changedFields.push(key);
         }
     });
 
+
+    // Handle image changes
     if (adImage) {
       postData.append('ad_image', adImage);
+      changedFields.push('image');
     }
     if (removeAdImage) {
       postData.append('removeAdImage', 'true');
+      changedFields.push('remove_image');
     }
+
+    // Only proceed if there are changes to send
+    if (changedFields.length === 0) {
+      console.log('No changes detected');
+      setStatusMessage('No changes detected');
+      setIsLoading(false);
+      onSuccess(); // Just close the form without making a request
+      return;
+    }
+
+    console.log('Updating fields:', changedFields);
+    setStatusMessage(`Updating: ${changedFields.join(', ')}`);
 
     try {
       const response = await fetch(createApiUrl(`/edit_ad?ad_id=${ad._id}`), {
@@ -64,12 +92,18 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
       });
 
       if (response.ok) {
+        console.log('Ad updated successfully');
+        setStatusMessage('Ad updated successfully');
         onSuccess();
       } else {
         console.error('Failed to update ad');
+        setStatusMessage('Failed to update ad');
       }
     } catch (error) {
       console.error('Error updating ad:', error);
+      setStatusMessage('Error updating ad');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -131,6 +165,20 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
           <button type="button" className="close-button" onClick={onClose}>×</button>
           <h2>Edit Ad</h2>
           
+          {statusMessage && (
+            <div className="status-message" style={{ 
+              padding: '0.5rem', 
+              marginBottom: '1rem', 
+              backgroundColor: statusMessage.includes('Error') || statusMessage.includes('Failed') ? '#f8d7da' : '#d4edda',
+              color: statusMessage.includes('Error') || statusMessage.includes('Failed') ? '#721c24' : '#155724',
+              border: '1px solid',
+              borderColor: statusMessage.includes('Error') || statusMessage.includes('Failed') ? '#f5c6cb' : '#c3e6cb',
+              borderRadius: '4px'
+            }}>
+              {statusMessage}
+            </div>
+          )}
+          
           <label>Name:</label>
           <input type="text" name="name" value={formData.name} onChange={handleInputChange} />
 
@@ -179,7 +227,9 @@ const EditAdForm: React.FC<EditAdFormProps> = ({ ad, onClose, onSuccess }) => {
           {formData.adImageURL && !adImage && <img src={formData.adImageURL} alt="Ad" style={{width: '100px', height: '100px'}} />}
           {formData.adImageURL && <button type="button" onClick={handleRemoveImage}>Remove Image</button>}
 
-          <button type="submit">Save Changes</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Saving Changes...' : 'Save Changes'}
+          </button>
         </form>
       </div>
     </div>

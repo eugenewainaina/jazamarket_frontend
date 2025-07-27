@@ -58,6 +58,17 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-ad-form-content button[type="submit"]:hover:not(:disabled) {
+  background-color: #23272b;
+}
+
+.edit-ad-form-content button[type="submit"]:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .collapsible-section {

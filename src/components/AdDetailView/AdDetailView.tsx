@@ -99,8 +99,14 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
           <h2>{ad.name}</h2>
           {isMyAd && (
             <div className="ad-actions">
-              <button className="action-btn edit-btn" onClick={handleEditClick}><FaEdit /></button>
-              <button className="action-btn delete-btn" onClick={handleDeleteClick}><FaTrash /></button>
+              <button className="action-btn edit-btn" onClick={handleEditClick}>
+                <FaEdit />
+                <span>Edit</span>
+              </button>
+              <button className="action-btn delete-btn" onClick={handleDeleteClick}>
+                <FaTrash />
+                <span>Delete</span>
+              </button>
             </div>
           )}
         </div>
