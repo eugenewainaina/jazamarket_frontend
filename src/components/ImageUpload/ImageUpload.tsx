@@ -51,13 +51,40 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImages
       });
 
       if (!response.ok) {
-        throw new Error('Failed to upload images');
+        throw new Error(`Failed to upload images: ${response.status} ${response.statusText}`);
       }
 
-      const result = await response.json();
-      if (result.imageLinks) {
+      const responseText = await response.text();
+      console.log('Upload response:', responseText);
+      
+      // If response is empty but status is 200, consider it a success
+      if (!responseText.trim()) {
+        console.log('Upload successful - server returned empty response');
+        // Since we don't get imageLinks back, we'll need to refresh the ad data
+        if (onImagesUpdated) {
+          // Trigger a refresh of the parent component to fetch updated ad data
+          onImagesUpdated(currentImages); // This will trigger the parent to refetch
+        }
+        return;
+      }
+      
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse response as JSON:', parseError);
+        throw new Error('Server returned invalid response format');
+      }
+
+      if (result.imageLinks && Array.isArray(result.imageLinks)) {
         const updatedImages = [...currentImages, ...result.imageLinks];
         onImagesUpdated(updatedImages);
+      } else {
+        console.log('Upload successful but no imageLinks returned, triggering refresh');
+        // Trigger parent refresh since we don't have the new image URLs
+        if (onImagesUpdated) {
+          onImagesUpdated(currentImages);
+        }
       }
 
     } catch (error) {
