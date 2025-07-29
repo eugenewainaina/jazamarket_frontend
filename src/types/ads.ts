@@ -8,6 +8,7 @@ export interface BaseAd {
   subcategory: string;
   adImageURL?: string;
   accountID: string;
+  _createTime: string;
 }
 
 export interface VehicleAd extends BaseAd {

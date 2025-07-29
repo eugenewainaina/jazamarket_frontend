@@ -69,3 +69,31 @@ export const categoryKeyToName = (key: string): string => {
   
   return keyToCategoryMap[key] || key;
 };
+
+/**
+ * Formats ISO date string to readable format
+ * Example: "2025-07-25T13:02:19.279904Z" -> "25 Jul 2025"
+ */
+export const formatPostDate = (dateString: string): string => {
+  try {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    };
+    return date.toLocaleDateString('en-GB', options);
+  } catch (error) {
+    return 'Invalid Date';
+  }
+};
+
+/**
+ * Truncates text to specified length and adds ellipsis
+ */
+export const truncateText = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.substring(0, maxLength).trim() + '...';
+};

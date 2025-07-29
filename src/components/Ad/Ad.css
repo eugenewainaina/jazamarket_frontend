@@ -50,7 +50,11 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  height: calc(100vw - 32px); /* Match image container width minus padding */
+  max-height: 300px; /* Set a reasonable max height */
+  min-height: 200px; /* Set a minimum height */
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .ad-name {
@@ -64,6 +68,18 @@
   color: #555;
   margin: 0 0 8px 0;
   flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.ad-posted-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0 0 8px 0;
+  font-style: italic;
 }
 
 .ad-location {
@@ -83,6 +99,9 @@
 @media (max-width: 600px) {
   .ad-details {
     padding: 12px;
+    height: calc(100vw - 24px); /* Adjust for smaller padding */
+    max-height: 250px;
+    min-height: 180px;
   }
 
   .ad-name {
@@ -94,11 +113,22 @@
     font-size: 0.9rem;
   }
 
+  .ad-posted-date {
+    font-size: 0.7rem;
+  }
+
   .ad-location {
     font-size: 0.8rem;
   }
 
   .ad-price {
     font-size: 1rem;
+  }
+}
+
+/* For larger screens, use a more predictable layout */
+@media (min-width: 768px) {
+  .ad-details {
+    height: 280px; /* Fixed height for consistent layout on larger screens */
   }
 }

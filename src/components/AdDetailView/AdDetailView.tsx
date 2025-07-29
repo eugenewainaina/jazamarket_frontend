@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { BaseAd, PropertyAd, VehicleAd, MyAdSummary } from '../../types/ads';
-import { formatPrice } from '../../utils/formatters';
+import { formatPrice, formatPostDate } from '../../utils/formatters';
 import './AdDetailView.css';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditAdForm from '../EditAdForm/EditAdForm';
@@ -118,6 +118,7 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
             <p className="price">{formatPrice(ad.price)}</p>
             <p><strong>Location:</strong> {ad.location}</p>
             <p><strong>Description:</strong> {ad.description}</p>
+            <p><strong>Posted on:</strong> {formatPostDate(ad._createTime)}</p>
             {renderAdSpecificDetails()}
           </div>
         </div>

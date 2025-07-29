@@ -1,6 +1,7 @@
 import React from "react";
 import "./Ad.css";
 import type { BaseAd, PropertyAd, VehicleAd } from "../../types/ads";
+import { formatPostDate, truncateText } from "../../utils/formatters";
 
 type AdProps = {
   ad: BaseAd | VehicleAd | PropertyAd;
@@ -29,7 +30,8 @@ const Ad: React.FC<AdProps> = ({ ad, onClick, isSelected }) => {
       </div>
       <div className="ad-details">
         <h3 className="ad-name">{ad.name}</h3>
-        <p className="ad-description">{ad.description}</p>
+        <p className="ad-description">{truncateText(ad.description, 80)}</p>
+        <p className="ad-posted-date">Posted on {formatPostDate(ad._createTime)}</p>
         <p className="ad-location">{ad.location}</p>
         <p className="ad-price">{formatPrice(ad.price)}</p>
       </div>
