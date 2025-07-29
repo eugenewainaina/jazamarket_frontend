@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { BaseAd, PropertyAd, VehicleAd, MyAdSummary } from '../../types/ads';
 import { formatPrice, formatPostDate } from '../../utils/formatters';
 import './AdDetailView.css';
@@ -18,6 +18,11 @@ interface AdDetailViewProps {
 const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentImages, setCurrentImages] = useState<string[]>(ad.imageLinks || []);
+
+  // Sync local state when ad prop changes (after refresh)
+  useEffect(() => {
+    setCurrentImages(ad.imageLinks || []);
+  }, [ad.imageLinks]);
 
   const handleEditSuccess = () => {
     setIsEditing(false);

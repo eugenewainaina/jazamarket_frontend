@@ -61,12 +61,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImages
       // If response is empty but status is 200, consider it a success
       if (!responseText.trim()) {
         console.log('Upload successful - server returned empty response');
-        // Wait 1 second before triggering refresh
-        setTimeout(() => {
-          if (onAdUpdated) {
-            onAdUpdated();
-          }
-        }, 1000);
+        // Trigger a full refresh of the ad data
+        if (onAdUpdated) {
+          onAdUpdated();
+        }
         return;
       }
       
@@ -83,12 +81,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImages
         onImagesUpdated(updatedImages);
       } else {
         console.log('Upload successful but no imageLinks returned, triggering refresh');
-        // Wait 1 second before triggering refresh
-        setTimeout(() => {
-          if (onAdUpdated) {
-            onAdUpdated();
-          }
-        }, 1000);
+        // Trigger parent refresh since we don't have the new image URLs
+        if (onAdUpdated) {
+          onAdUpdated();
+        }
       }
 
     } catch (error) {
