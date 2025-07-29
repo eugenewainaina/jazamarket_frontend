@@ -7,9 +7,10 @@ interface ImageUploadProps {
   adId: string;
   currentImages: string[];
   onImagesUpdated: (newImages: string[]) => void;
+  onAdUpdated?: () => void;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImagesUpdated }) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImagesUpdated, onAdUpdated }) => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,10 +61,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImages
       // If response is empty but status is 200, consider it a success
       if (!responseText.trim()) {
         console.log('Upload successful - server returned empty response');
-        // Since we don't get imageLinks back, we'll need to refresh the ad data
-        if (onImagesUpdated) {
-          // Trigger a refresh of the parent component to fetch updated ad data
-          onImagesUpdated(currentImages); // This will trigger the parent to refetch
+        // Trigger a full refresh of the ad data
+        if (onAdUpdated) {
+          onAdUpdated();
         }
         return;
       }
@@ -82,8 +82,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImages
       } else {
         console.log('Upload successful but no imageLinks returned, triggering refresh');
         // Trigger parent refresh since we don't have the new image URLs
-        if (onImagesUpdated) {
-          onImagesUpdated(currentImages);
+        if (onAdUpdated) {
+          onAdUpdated();
         }
       }
 

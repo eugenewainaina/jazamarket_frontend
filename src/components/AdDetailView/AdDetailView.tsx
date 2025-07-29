@@ -136,6 +136,7 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
                 adId={ad._id}
                 currentImages={currentImages}
                 onImagesUpdated={handleImagesUpdated}
+                onAdUpdated={onAdUpdated}
               />
             )}
             
