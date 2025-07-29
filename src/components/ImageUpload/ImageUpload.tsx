@@ -43,9 +43,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ adId, currentImages, onImages
       validFiles.forEach(file => {
         formData.append('images', file);
       });
-      formData.append('adId', adId);
 
-      const response = await fetch(createApiUrl('/upload_ad_images'), {
+      const response = await fetch(createApiUrl(`/upload_ad_images?ad_id=${adId}`), {
         method: 'POST',
         credentials: 'include',
         body: formData,
