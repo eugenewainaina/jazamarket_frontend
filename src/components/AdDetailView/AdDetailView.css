@@ -58,6 +58,23 @@
   
   .ad-detail-info {
     flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .ad-detail-info > div {
+    margin: 0;
+  }
+  
+  .ad-detail-info .image-upload-container {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+    margin-top: 15px;
+  }
+  
+  .ad-detail-info .image-gallery-section {
+    margin-top: 5px;
   }
   
   .ad-detail-info h2 {
@@ -127,6 +144,27 @@
   
   .action-btn span {
     font-weight: 500;
+  }
+  
+  /* Additional styles for image upload and gallery integration */
+  .ad-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .ad-detail-info > div {
+    margin: 0;
+  }
+  
+  .ad-detail-info .image-upload-container {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+    margin-top: 15px;
+  }
+  
+  .ad-detail-info .image-gallery-section {
+    margin-top: 5px;
   }
   
   /* Responsive design for mobile */

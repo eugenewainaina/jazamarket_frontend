@@ -1,6 +1,6 @@
 import React from 'react';
 import Categories from '../../components/Categories/Categories';
-import Banner from '../../components/Banner/Banner';
+import BannerCarousel from '../../components/Banner/BannerCarousel';
 import { useSEO } from '../../hooks/useSEO';
 import { categoryNameToKey } from '../../utils/formatters';
 import './HomePage.css';
@@ -15,14 +15,14 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homepage-container">
-      <Banner
+      <BannerCarousel
         imageUrl="/banners/top-home-banner.png"
         linkTo={`/category/${categoryNameToKey('Vehicles')}`}
         altText="Top Promotional Banner"
         className="top-banner"
       />
       <Categories />
-      <Banner
+      <BannerCarousel
         imageUrl="/banners/bottom-home-banner.png"
         linkTo={`/category/${categoryNameToKey('Property & Rentals')}`}
         altText="Bottom Promotional Banner"

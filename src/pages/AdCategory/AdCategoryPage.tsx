@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Ad from "../../components/Ad/Ad";
 import AdDetailView from "../../components/AdDetailView/AdDetailView";
-import Banner from "../../components/Banner/Banner";
+import BannerCarousel from "../../components/Banner/BannerCarousel";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import type { BaseAd, VehicleAd, PropertyAd } from "../../types/ads";
 import { createApiUrl } from "../../utils/api";
@@ -75,10 +75,11 @@ const AdCategoryPage: React.FC = () => {
 
   return (
     <div className="category-page">
-      <Banner
+      <BannerCarousel
         imageUrl="/banners/top-category-banner.png"
         altText="Top of Category Banner"
         linkTo="/some-link"
+        className="top-category-banner"
       />
       <h1 className="category-title">{displayCategoryName}</h1>
       <div className="ads-grid">

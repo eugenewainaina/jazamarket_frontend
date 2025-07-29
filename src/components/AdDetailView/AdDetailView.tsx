@@ -4,6 +4,8 @@ import { formatPrice, formatPostDate } from '../../utils/formatters';
 import './AdDetailView.css';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditAdForm from '../EditAdForm/EditAdForm';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import ImageGallery from '../ImageGallery/ImageGallery';
 import { createApiUrl } from '../../utils/api';
 
 interface AdDetailViewProps {
@@ -15,6 +17,7 @@ interface AdDetailViewProps {
 
 const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [currentImages, setCurrentImages] = useState<string[]>(ad.imageLinks || []);
 
   const handleEditSuccess = () => {
     setIsEditing(false);
@@ -22,6 +25,13 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
       onAdUpdated();
     }
     onClose();
+  };
+
+  const handleImagesUpdated = (newImages: string[]) => {
+    setCurrentImages(newImages);
+    if (onAdUpdated) {
+      onAdUpdated();
+    }
   };
 
   const renderAdSpecificDetails = () => {
@@ -118,8 +128,18 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
             <p className="price">{formatPrice(ad.price)}</p>
             <p><strong>Location:</strong> {ad.location}</p>
             <p><strong>Description:</strong> {ad.description}</p>
-            <p><strong>Posted on:</strong> {formatPostDate(ad._createTime)}</p>
+            <p><strong>Posted:</strong> {formatPostDate(ad._createTime)}</p>
             {renderAdSpecificDetails()}
+            
+            {isMyAd && (
+              <ImageUpload
+                adId={ad._id}
+                currentImages={currentImages}
+                onImagesUpdated={handleImagesUpdated}
+              />
+            )}
+            
+            <ImageGallery images={currentImages} adName={ad.name} />
           </div>
         </div>
       </div>

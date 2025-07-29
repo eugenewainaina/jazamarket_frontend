@@ -7,6 +7,7 @@ export interface BaseAd {
   category: string;
   subcategory: string;
   adImageURL?: string;
+  imageLinks?: string[];
   accountID: string;
   _createTime: string;
 }

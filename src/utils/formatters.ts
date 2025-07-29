@@ -71,18 +71,27 @@ export const categoryKeyToName = (key: string): string => {
 };
 
 /**
- * Formats ISO date string to readable format
- * Example: "2025-07-25T13:02:19.279904Z" -> "25 Jul 2025"
+ * Formats ISO date string to readable format with time
+ * Example: "2025-07-25T13:02:19.279904Z" -> "25 July 2025 13:02"
  */
 export const formatPostDate = (dateString: string): string => {
   try {
     const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
+    const dateOptions: Intl.DateTimeFormatOptions = {
       day: 'numeric',
-      month: 'short',
+      month: 'long',
       year: 'numeric'
     };
-    return date.toLocaleDateString('en-GB', options);
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    };
+    
+    const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
+    const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
+    
+    return `${formattedDate} ${formattedTime}`;
   } catch (error) {
     return 'Invalid Date';
   }
