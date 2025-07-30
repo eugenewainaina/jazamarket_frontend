@@ -13,19 +13,42 @@ const HomePage: React.FC = () => {
     ogUrl: window.location.href,
   });
 
+  // Define banners for the carousel
+  const topBanners = [
+    {
+      imageUrl: "/banners/top-home-banner.png",
+      linkTo: `/category/${categoryNameToKey('Vehicles')}`,
+      altText: "Top Promotional Banner"
+    },
+    {
+      imageUrl: "/banners/autospot-kenya-banner.png",
+      linkTo: `/category/${categoryNameToKey('Vehicles')}`,
+      altText: "Autospot Kenya - Drive Quality, Drive Confidence"
+    }
+  ];
+
+  const bottomBanners = [
+    {
+      imageUrl: "/banners/bottom-home-banner.png",
+      linkTo: `/category/${categoryNameToKey('Property & Rentals')}`,
+      altText: "Bottom Promotional Banner"
+    },
+    {
+      imageUrl: "/banners/autospot-kenya-banner.png",
+      linkTo: `/category/${categoryNameToKey('Vehicles')}`,
+      altText: "Autospot Kenya - Drive Quality, Drive Confidence"
+    }
+  ];
+
   return (
     <div className="homepage-container">
       <BannerCarousel
-        imageUrl="/banners/top-home-banner.png"
-        linkTo={`/category/${categoryNameToKey('Vehicles')}`}
-        altText="Top Promotional Banner"
+        banners={topBanners}
         className="top-banner"
       />
       <Categories />
       <BannerCarousel
-        imageUrl="/banners/bottom-home-banner.png"
-        linkTo={`/category/${categoryNameToKey('Property & Rentals')}`}
-        altText="Bottom Promotional Banner"
+        banners={bottomBanners}
         className="bottom-banner"
       />
     </div>

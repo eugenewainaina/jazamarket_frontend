@@ -2,22 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BannerCarousel.css';
 
-interface BannerCarouselProps {
+interface BannerItem {
   imageUrl: string;
   linkTo: string;
   altText: string;
+}
+
+interface BannerCarouselProps {
+  banners: BannerItem[];
   className?: string;
 }
 
-const BannerCarousel: React.FC<BannerCarouselProps> = ({ imageUrl, linkTo, altText, className }) => {
+const BannerCarousel: React.FC<BannerCarouselProps> = ({ banners, className }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Create array of 3 identical images for now
-  const images = [
-    { url: imageUrl, alt: `${altText} 1` },
-    { url: imageUrl, alt: `${altText} 2` },
-    { url: imageUrl, alt: `${altText} 3` }
-  ];
+  // Use the provided banners array, limit to 3 maximum
+  const images = banners.slice(0, 3);
 
   // Auto-advance carousel every 5 seconds
   useEffect(() => {
@@ -48,15 +48,15 @@ const BannerCarousel: React.FC<BannerCarouselProps> = ({ imageUrl, linkTo, altTe
         </button>
         
         <div className="carousel-slides">
-          {images.map((image, index) => (
+          {images.map((banner, index) => (
             <div
               key={index}
               className={`carousel-slide ${index === currentSlide ? 'active' : ''}`}
             >
-              <Link to={linkTo}>
+              <Link to={banner.linkTo}>
                 <img 
-                  src={image.url} 
-                  alt={image.alt} 
+                  src={banner.imageUrl} 
+                  alt={banner.altText} 
                   className="carousel-image" 
                 />
               </Link>
