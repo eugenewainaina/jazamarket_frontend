@@ -76,9 +76,11 @@ const AdCategoryPage: React.FC = () => {
   return (
     <div className="category-page">
       <BannerCarousel
-        imageUrl="/banners/top-category-banner.png"
-        altText="Top of Category Banner"
-        linkTo="/some-link"
+        banners={[{
+          imageUrl: "/banners/top-category-banner.png",
+          altText: "Top of Category Banner",
+          linkTo: "/some-link"
+        }]}
         className="top-category-banner"
       />
       <h1 className="category-title">{displayCategoryName}</h1>
