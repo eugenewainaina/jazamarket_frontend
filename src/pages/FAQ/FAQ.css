@@ -1,7 +1,7 @@
 .faq-page {
   min-height: 100vh;
   padding: 2rem 0;
-  background-color: #f8f9fa;
+  background-color: var(--light-gray);
 }
 
 .faq-page .container {
@@ -12,7 +12,7 @@
 
 .faq-page h1 {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dark-blue);
   margin-bottom: 1rem;
   font-size: 2.5rem;
   font-weight: 700;
@@ -20,7 +20,7 @@
 
 .intro-text {
   text-align: center;
-  color: #6c757d;
+  color: var(--subtext);
   font-size: 1.1rem;
   margin-bottom: 3rem;
   max-width: 600px;
@@ -45,7 +45,7 @@
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #6c757d;
+  color: var(--subtext);
   font-size: 1.1rem;
 }
 
@@ -61,7 +61,7 @@
 
 .search-box input:focus {
   outline: none;
-  border-color: #e74c3c;
+  border-color: var(--primary-blue);
 }
 
 .faq-categories {
@@ -76,7 +76,7 @@
   padding: 0.75rem 1.5rem;
   border: 1px solid #ddd;
   background: white;
-  color: #555;
+  color: var(--body-text);
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -85,14 +85,14 @@
 }
 
 .category-btn:hover {
-  border-color: #e74c3c;
-  color: #e74c3c;
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
 }
 
 .category-btn.active {
-  background: #e74c3c;
+  background: var(--primary-red);
   color: white;
-  border-color: #e74c3c;
+  border-color: var(--primary-red);
 }
 
 .faq-content {
@@ -127,12 +127,12 @@
   align-items: center;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--dark-blue);
   transition: background-color 0.3s ease;
 }
 
 .faq-question:hover {
-  background-color: #f8f9fa;
+  background-color: var(--light-gray);
 }
 
 .faq-question span {
@@ -142,12 +142,12 @@
 
 .faq-answer {
   padding: 0 1.5rem 1.5rem 1.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--light-gray);
   border-top: 1px solid #eee;
 }
 
 .faq-answer p {
-  color: #555;
+  color: var(--body-text);
   line-height: 1.6;
   margin: 0;
   font-size: 1rem;

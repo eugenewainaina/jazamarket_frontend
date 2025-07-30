@@ -18,8 +18,8 @@
 }
 
 .ad-card.selected {
-  border-color: #007bff;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 10px rgba(30, 136, 229, 0.5);
 }
 
 .ad-image-container {
@@ -61,11 +61,12 @@
   font-size: 1.2rem;
   font-weight: bold;
   margin: 0 0 8px 0;
+  color: var(--dark-blue);
 }
 
 .ad-description {
   font-size: 1rem;
-  color: #555;
+  color: var(--body-text);
   margin: 0 0 8px 0;
   flex-grow: 1;
   overflow: hidden;
@@ -77,21 +78,21 @@
 
 .ad-posted-date {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--subtext);
   margin: 0 0 8px 0;
   font-style: italic;
 }
 
 .ad-location {
   font-size: 0.9rem;
-  color: #777;
+  color: var(--subtext);
   margin: 0 0 8px 0;
 }
 
 .ad-price {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #00aaff;
+  color: var(--primary-red);
   margin: 0;
 }
 

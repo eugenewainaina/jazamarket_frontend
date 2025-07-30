@@ -1,7 +1,7 @@
 .about-us-page {
   min-height: 100vh;
   padding: 2rem 0;
-  background-color: #f8f9fa;
+  background-color: var(--light-gray);
 }
 
 .about-us-page .container {
@@ -12,7 +12,7 @@
 
 .about-us-page h1 {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dark-blue);
   margin-bottom: 3rem;
   font-size: 2.5rem;
   font-weight: 700;
@@ -26,14 +26,14 @@
 }
 
 .about-us-page h2 {
-  color: #e74c3c;
+  color: var(--primary-red);
   margin-bottom: 1rem;
   font-size: 1.8rem;
   font-weight: 600;
 }
 
 .about-us-page h3 {
-  color: #2c3e50;
+  color: var(--dark-blue);
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
   font-weight: 600;
@@ -41,13 +41,13 @@
 
 .about-us-page p {
   line-height: 1.6;
-  color: #555;
+  color: var(--body-text);
   margin-bottom: 1rem;
 }
 
 .hero-section {
   text-align: center;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, var(--primary-red), var(--primary-red-hover));
   color: white;
 }
 
@@ -71,13 +71,13 @@
 
 .value-item {
   padding: 1.5rem;
-  background: #f8f9fa;
+  background: var(--light-gray);
   border-radius: 8px;
-  border-left: 4px solid #e74c3c;
+  border-left: 4px solid var(--primary-red);
 }
 
 .value-item h3 {
-  color: #e74c3c;
+  color: var(--primary-red);
   margin-bottom: 1rem;
 }
 
@@ -94,7 +94,7 @@
 .team-section li {
   padding: 0.8rem 0;
   border-bottom: 1px solid #eee;
-  color: #555;
+  color: var(--body-text);
 }
 
 .team-section li:last-child {
@@ -102,12 +102,12 @@
 }
 
 .team-section strong {
-  color: #e74c3c;
+  color: var(--primary-red);
 }
 
 .contact-cta {
   text-align: center;
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-hover));
   color: white;
 }
 

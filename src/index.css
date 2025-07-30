@@ -1,9 +1,24 @@
+/* Import JazaMarket component styles */
+@import './styles/components.css';
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color: #213547;
+  /* JazaMarket Brand Colors */
+  --primary-red: #E53935;
+  --primary-blue: #1E88E5;
+  --dark-blue: #0D47A1;
+  --soft-red-tint: #FFCDD2;
+  --sky-blue: #64B5F6;
+  --light-gray: #F5F5F5;
+  --body-text: #333333;
+  --subtext: #666666;
+  --primary-red-hover: #D32F2F;
+  --primary-blue-hover: #1565C0;
+
+  color: var(--body-text);
   background-color: #ffffff;
 
   font-synthesis: none;
@@ -14,11 +29,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--primary-blue);
   text-decoration: inherit;
 }
 a:hover {
-  color: #747bff;
+  color: var(--primary-blue-hover);
 }
 
 body {
@@ -30,13 +45,75 @@ body {
 }
 
 .required-star {
-  color: red;
+  color: var(--primary-red);
   margin-left: 0.25rem;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: var(--dark-blue);
+}
+
+/* Global Typography Styles */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark-blue);
+}
+
+h2 {
+  color: var(--dark-blue);
+}
+
+h3 {
+  color: var(--body-text);
+}
+
+.text-muted {
+  color: var(--subtext);
+}
+
+.text-primary {
+  color: var(--primary-blue);
+}
+
+.text-danger {
+  color: var(--primary-red);
+}
+
+/* Price and highlight styling */
+.price {
+  color: var(--primary-red);
+  font-weight: bold;
+}
+
+.highlight {
+  background-color: var(--soft-red-tint);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 12px;
+}
+
+.badge-primary {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.badge-danger {
+  background-color: var(--primary-red);
+  color: white;
+}
+
+.badge-light {
+  background-color: var(--soft-red-tint);
+  color: var(--primary-red);
 }
 
 button {
@@ -46,12 +123,45 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #f9f9f9;
+  background-color: var(--light-gray);
+  color: var(--body-text);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--primary-blue);
+}
+
+/* Primary Button Style */
+.btn-primary {
+  background-color: var(--primary-red);
+  color: white;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: var(--primary-red-hover);
+}
+
+/* Secondary Button Style */
+.btn-secondary {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+}
+.btn-secondary:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+/* Outline Button Style */
+.btn-outline {
+  background-color: white;
+  color: var(--primary-blue);
+  border: 1px solid var(--primary-blue);
+}
+.btn-outline:hover {
+  background-color: var(--sky-blue);
+  border-color: var(--sky-blue);
+  color: white;
 }
 button:focus,
 button:focus-visible {

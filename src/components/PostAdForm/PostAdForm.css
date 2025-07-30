@@ -60,14 +60,14 @@
 }
 
 .post-ad-form .error-message {
-  color: #dc3545;
+  color: var(--primary-red);
   font-size: 0.875em;
   margin-top: 0.25rem;
 }
 
 .post-ad-form input.invalid,
 .post-ad-form select.invalid {
-  border-color: #dc3545;
+  border-color: var(--primary-red);
 }
 
 .form-buttons {
@@ -88,16 +88,27 @@
 .btn-cancel {
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
-  color: #212529;
+  color: var(--body-text);
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: var(--light-gray);
+  border-color: var(--primary-blue);
 }
 
 .btn-submit {
-  background-color: #343a40;
+  background-color: var(--primary-red);
   color: white;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: var(--primary-red-hover);
 }
 
 .btn-submit:disabled {
-  background-color: #6c757d;
+  background-color: var(--subtext);
 }
 
 .image-preview {

@@ -84,7 +84,7 @@
   .ad-detail-info .price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #00aaff;
+    color: var(--primary-red);
     margin-bottom: 1rem;
   }
   
@@ -123,22 +123,22 @@
   }
   
   .edit-btn {
-    color: #28a745;
-    border-color: #28a745;
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
   }
   
   .edit-btn:hover {
-    background-color: #28a745;
+    background-color: var(--primary-blue);
     color: white;
   }
   
   .delete-btn {
-    color: #dc3545;
-    border-color: #dc3545;
+    color: var(--primary-red);
+    border-color: var(--primary-red);
   }
   
   .delete-btn:hover {
-    background-color: #dc3545;
+    background-color: var(--primary-red);
     color: white;
   }
   
