@@ -31,18 +31,36 @@ const AdCategoryPage: React.FC = () => {
     const fetchAds = async () => {
       try {
         setLoading(true);
+        setError(null); // Reset error state
         const response = await fetch(
           createApiUrl(`/2bf73dc1-0fe5-4e0b-aa4b-10f32ede6f4a/${displayCategoryName}`)
         );
+        
         if (!response.ok) {
-          throw new Error("Failed to fetch ads");
+          throw new Error(`Failed to fetch ads: ${response.status} ${response.statusText}`);
         }
-        const data = await response.json();
-        setAds(data);
+        
+        // Handle empty response body
+        const text = await response.text();
+        let data = [];
+        
+        if (text.trim()) {
+          try {
+            data = JSON.parse(text);
+          } catch (parseError) {
+            console.warn('Failed to parse response as JSON:', parseError);
+            data = [];
+          }
+        }
+        
+        // Ensure data is always an array, even if backend returns null/undefined
+        setAds(Array.isArray(data) ? data : []);
       } catch (err) {
+        console.error('Error fetching ads:', err);
         setError(
           err instanceof Error ? err.message : "An unknown error occurred"
         );
+        setAds([]); // Set ads to empty array on error
       } finally {
         setLoading(false);
       }
@@ -85,8 +103,8 @@ const AdCategoryPage: React.FC = () => {
       />
       <h1 className="category-title">{displayCategoryName}</h1>
       <div className="ads-grid">
-        {ads.length > 0 ? (
-          ads.map((ad) => (
+        {Array.isArray(ads) && ads.length > 0 ? (
+          ads.filter(ad => ad && ad._id).map((ad) => (
             <React.Fragment key={ad._id}>
               <Ad
                 ad={ad}
@@ -99,7 +117,10 @@ const AdCategoryPage: React.FC = () => {
             </React.Fragment>
           ))
         ) : (
-          <p>No ads found in this category.</p>
+          <div className="no-ads-message">
+            <p>No ads found in this category.</p>
+            {error && <p className="error-details">Error: {error}</p>}
+          </div>
         )}
       </div>
     </div>

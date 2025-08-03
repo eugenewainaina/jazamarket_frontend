@@ -9,18 +9,21 @@ import Placeholder from './pages/Dashboard/Placeholder.tsx';
 import ProfileSettings from './pages/Dashboard/ProfileSettings.tsx';
 import AdCategoryPage from './pages/AdCategory/AdCategoryPage.tsx';
 import { ProfileProvider } from './context/ProfileContext.tsx';
-import AboutUs from './pages/AboutUs/AboutUs.tsx';
-import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy.tsx';
-import TermsConditions from './pages/TermsConditions/TermsConditions.tsx';
-import ContactUs from './pages/ContactUs/ContactUs.tsx';
-import SafetyTips from './pages/SafetyTips/SafetyTips.tsx';
-import FAQ from './pages/FAQ/FAQ.tsx';
+import AboutUs from './pages/InformationPages/AboutUs/AboutUs.tsx';
+import PrivacyPolicy from './pages/InformationPages/PrivacyPolicy/PrivacyPolicy.tsx';
+import TermsConditions from './pages/InformationPages/TermsConditions/TermsConditions.tsx';
+import ContactUs from './pages/InformationPages/ContactUs/ContactUs.tsx';
+import SafetyTips from './pages/InformationPages/SafetyTips/SafetyTips.tsx';
+import FAQ from './pages/InformationPages/FAQ/FAQ.tsx';
 import Blog from './pages/Blog/Blog.tsx';
-import IntellectualProperty from './pages/IntellectualProperty/IntellectualProperty.tsx';
+import IntellectualProperty from './pages/InformationPages/IntellectualProperty/IntellectualProperty.tsx';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop.tsx';
 
 function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
@@ -48,6 +51,7 @@ function App() {
         <Route path="profile_settings" element={<ProfileSettings />} />
       </Route>
     </Routes>
+    </>
   );
 }
 

@@ -79,6 +79,11 @@
     background-color: var(--sky-blue);
 }
 
+.newsletter-form {
+    display: block;
+    width: 100%;
+}
+
 .newsletter-form input {
     width: 100%;
     padding: 0.5rem;
@@ -87,6 +92,7 @@
     background-color: #495057;
     color: #fff;
     border-radius: 3px;
+    box-sizing: border-box;
 }
 
 .newsletter-form button {
