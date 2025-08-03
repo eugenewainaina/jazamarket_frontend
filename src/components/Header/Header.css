@@ -92,17 +92,22 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    gap: 1.5rem; /* Add gap for spacing on all screen sizes */
+    gap: 1rem; /* Reduced gap to prevent overflow */
+    max-width: 100%; /* Ensure header doesn't exceed viewport */
+    overflow: hidden; /* Prevent content from overflowing */
 }
 
 .logo {
     height: 50px;
+    flex-shrink: 0; /* Prevent logo from shrinking */
 }
 
 .search-bar {
     display: flex;
     flex-grow: 1;
     gap: 0.5rem;
+    max-width: calc(100% - 300px); /* Reserve space for logo and post ad button */
+    min-width: 0; /* Allow shrinking when needed */
 }
 
 .search-input-group {
@@ -111,6 +116,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+    min-width: 200px; /* Minimum width to maintain usability */
 }
 
 .search-bar input {
@@ -156,6 +162,8 @@
     align-items: center;
     gap: 0.5rem;
     transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+    white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .post-ad:hover {
@@ -180,5 +188,20 @@
 
     .post-ad {
         justify-content: center; /* Center the text and icon in the button */
+    }
+}
+
+/* Medium screen adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .main-header {
+        gap: 0.75rem; /* Reduce gap on medium screens */
+    }
+    
+    .search-bar {
+        max-width: calc(100% - 250px); /* Adjust reserved space */
+    }
+    
+    .search-bar select {
+        min-width: 120px; /* Ensure select doesn't get too small */
     }
 }
