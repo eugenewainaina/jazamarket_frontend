@@ -1,0 +1,138 @@
+.about-us-page {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background-color: var(--light-gray);
+}
+
+.about-us-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.about-us-page h1 {
+  text-align: center;
+  color: var(--dark-blue);
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.about-us-page section {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-us-page h2 {
+  color: var(--primary-red);
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.about-us-page h3 {
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.about-us-page p {
+  line-height: 1.6;
+  color: var(--body-text);
+  margin-bottom: 1rem;
+}
+
+.hero-section {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-red), var(--primary-red-hover));
+  color: white;
+}
+
+.hero-section h2 {
+  color: white;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-section p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.value-item {
+  padding: 1.5rem;
+  background: var(--light-gray);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-red);
+}
+
+.value-item h3 {
+  color: var(--primary-red);
+  margin-bottom: 1rem;
+}
+
+.story-section p,
+.contact-cta p {
+  font-size: 1.1rem;
+}
+
+.team-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.team-section li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #eee;
+  color: var(--body-text);
+}
+
+.team-section li:last-child {
+  border-bottom: none;
+}
+
+.team-section strong {
+  color: var(--primary-red);
+}
+
+.contact-cta {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-hover));
+  color: white;
+}
+
+.contact-cta h2 {
+  color: white;
+}
+
+.contact-cta p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+  .about-us-page h1 {
+    font-size: 2rem;
+  }
+  
+  .about-us-page section {
+    padding: 1.5rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 1.8rem;
+  }
+  
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
