@@ -12,13 +12,6 @@ const CountryCodes: React.FC<{
     { code: '+256', name: 'Uganda' },
   ];
 
-  // function to return this list
-  const getCountryList = () => {
-    return countries.map(country => ({
-      code: country.code,
-      name: country.name
-    }));
-  };
 
   return (
     <select value={value} onChange={onChange}>
