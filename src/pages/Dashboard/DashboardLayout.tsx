@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import './DashboardLayout.css';
-import { FaTachometerAlt, FaHeart, FaEnvelope, FaCog, FaPlusCircle } from 'react-icons/fa';
+import { FaTachometerAlt, FaHeart, FaEnvelope, FaCog, FaPlusCircle, FaBars, FaTimes } from 'react-icons/fa';
 import { useProfile } from '../../context/ProfileContext';
 import { format, parseISO } from 'date-fns';
 
 const DashboardLayout: React.FC = () => {
   const { profile, loading } = useProfile();
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
+  const closeNav = () => {
+    setIsNavOpen(false);
+  };
 
   const formatDate = (dateString: string | undefined) => {
     if (!dateString) return 'N/A';
@@ -47,22 +56,29 @@ const DashboardLayout: React.FC = () => {
             </div>
           </div>
         </div>
+        <button className="hamburger-menu" onClick={toggleNav} aria-label="Toggle navigation">
+          {isNavOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </div>
+      
+      {/* Mobile overlay */}
+      {isNavOpen && <div className="nav-overlay" onClick={closeNav}></div>}
+      
       <div className="dashboard-content">
-        <div className="dashboard-nav">
-          <NavLink to="/dashboard" end>
+        <div className={`dashboard-nav ${isNavOpen ? 'nav-open' : ''}`}>
+          <NavLink to="/dashboard" end onClick={closeNav}>
             <FaTachometerAlt /> Dashboard
           </NavLink>
-          <NavLink to="/dashboard/my_ads">
+          <NavLink to="/dashboard/my_ads" onClick={closeNav}>
             <FaPlusCircle /> My Ads
           </NavLink>
-          <NavLink to="/dashboard/favourite_ads">
+          <NavLink to="/dashboard/favourite_ads" onClick={closeNav}>
             <FaHeart /> Favourite Ads
           </NavLink>
-          <NavLink to="/dashboard/messages">
+          <NavLink to="/dashboard/messages" onClick={closeNav}>
             <FaEnvelope /> Messages
           </NavLink>
-          <NavLink to="/dashboard/profile_settings">
+          <NavLink to="/dashboard/profile_settings" onClick={closeNav}>
             <FaCog /> Profile Settings
           </NavLink>
         </div>

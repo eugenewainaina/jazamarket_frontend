@@ -6,6 +6,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditAdForm from '../EditAdForm/EditAdForm';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import ContactDetails from '../ContactDetails/ContactDetails';
 import { createApiUrl } from '../../utils/api';
 
 interface AdDetailViewProps {
@@ -135,6 +136,11 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
             <p><strong>Description:</strong> {ad.description}</p>
             <p><strong>Posted:</strong> {formatPostDate(ad._createTime)}</p>
             {renderAdSpecificDetails()}
+            
+            {/* Show contact details only for ads that are not the user's own */}
+            {!isMyAd && (
+              <ContactDetails adId={ad._id} adName={ad.name} />
+            )}
             
             {isMyAd && (
               <ImageUpload

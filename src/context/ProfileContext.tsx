@@ -14,6 +14,7 @@ export interface ProfileData {
   x?: string;
   linkedin?: string;
   facebook?: string;
+  instagram?: string;
   _createTime?: string;
 }
 

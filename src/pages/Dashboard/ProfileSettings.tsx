@@ -26,6 +26,7 @@ const ProfileSettings: React.FC = () => {
     x: '',
     linkedin: '',
     facebook: '',
+    instagram: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [countryCode, setCountryCode] = useState('+254');
@@ -48,6 +49,7 @@ const ProfileSettings: React.FC = () => {
         x: profile.x || '',
         linkedin: profile.linkedin || '',
         facebook: profile.facebook || '',
+        instagram: profile.instagram || '',
       });
       // You might want to add more sophisticated logic to extract country code
       if (profile.whatsapp) {
@@ -78,6 +80,7 @@ const ProfileSettings: React.FC = () => {
       if (formData.x !== (profile.x || '')) return true;
       if (formData.linkedin !== (profile.linkedin || '')) return true;
       if (formData.facebook !== (profile.facebook || '')) return true;
+      if (formData.instagram !== (profile.instagram || '')) return true;
 
       if (profileImageFile) return true;
 
@@ -111,6 +114,7 @@ const ProfileSettings: React.FC = () => {
       case 'x':
       case 'linkedin':
       case 'facebook':
+      case 'instagram':
         error = value ? validateUsername(value) : '';
         break;
       default:
@@ -129,6 +133,7 @@ const ProfileSettings: React.FC = () => {
     if (formData.x) newErrors.x = validateUsername(formData.x);
     if (formData.linkedin) newErrors.linkedin = validateUsername(formData.linkedin);
     if (formData.facebook) newErrors.facebook = validateUsername(formData.facebook);
+    if (formData.instagram) newErrors.instagram = validateUsername(formData.instagram);
 
     setErrors(newErrors);
     return Object.values(newErrors).every(error => error === "");
@@ -174,6 +179,7 @@ const ProfileSettings: React.FC = () => {
         if (formData.facebook !== (profile.facebook || '')) changedFields.facebook = formData.facebook;
         if (formData.linkedin !== (profile.linkedin || '')) changedFields.linkedin = formData.linkedin;
         if (formData.x !== (profile.x || '')) changedFields.x = formData.x;
+        if (formData.instagram !== (profile.instagram || '')) changedFields.instagram = formData.instagram;
 
         const fullWhatsApp = formData.whatsapp ? `${countryCode}${formData.whatsapp}` : '';
         if (fullWhatsApp !== (profile.whatsapp || '')) changedFields.whatsapp = fullWhatsApp;
@@ -205,6 +211,7 @@ const ProfileSettings: React.FC = () => {
         const response = await fetch(createApiUrl('/edit_profile'), {
             method: 'POST',
             body: payload,
+            credentials: 'include'
         });
 
         if (!response.ok) {
@@ -329,7 +336,7 @@ const ProfileSettings: React.FC = () => {
             type="text"
             id="x"
             name="x"
-            placeholder="X Username"
+            placeholder="john.doe"
             value={formData.x}
             onChange={handleChange}
           />
@@ -341,7 +348,7 @@ const ProfileSettings: React.FC = () => {
             type="text"
             id="linkedin"
             name="linkedin"
-            placeholder="LinkedIn Username"
+            placeholder="john-doe-2345"
             value={formData.linkedin}
             onChange={handleChange}
           />
@@ -353,11 +360,23 @@ const ProfileSettings: React.FC = () => {
             type="text"
             id="facebook"
             name="facebook"
-            placeholder="Facebook Username"
+            placeholder="john.doe.1789"
             value={formData.facebook}
             onChange={handleChange}
           />
           {errors.facebook && <span className="error-text">{errors.facebook}</span>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="instagram">Instagram Username</label>
+          <input
+            type="text"
+            id="instagram"
+            name="instagram"
+            placeholder="john.doe"
+            value={formData.instagram}
+            onChange={handleChange}
+          />
+          {errors.instagram && <span className="error-text">{errors.instagram}</span>}
         </div>
         {submitStatus && (
           <div className={`submit-status ${submitStatus.type}`}>
