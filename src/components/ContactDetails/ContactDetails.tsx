@@ -231,6 +231,18 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ adId, adName }) => {
           </a>
         )}
       </div>
+      
+      <div className="safety-tips">
+        <h5>Safety Tips</h5>
+        <ul>
+          <li>Meet in a public place.</li>
+          <li>Never pay in advance.</li>
+          <li>Inspect the item before buying.</li>
+          <li>Avoid sharing personal information.</li>
+          <li>Beware of deals that sound too good.</li>
+          <li>Report suspicious users.</li>
+        </ul>
+      </div>
     </div>
   );
 };
