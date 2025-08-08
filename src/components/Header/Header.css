@@ -106,7 +106,7 @@
     display: flex;
     flex-grow: 1;
     gap: 0.5rem;
-    max-width: calc(100% - 300px); /* Reserve space for logo and post ad button */
+    max-width: calc(100% - 400px); /* Reserve more space for logo and buttons */
     min-width: 0; /* Allow shrinking when needed */
 }
 
@@ -151,7 +151,7 @@
     background-color: var(--primary-blue-hover);
 }
 
-.post-ad {
+.post-free-ad {
     background-color: var(--primary-red);
     color: white;
     border: none;
@@ -166,42 +166,133 @@
     white-space: nowrap; /* Prevent text from wrapping */
 }
 
-.post-ad:hover {
+.post-free-ad:hover {
     background-color: var(--primary-red-hover);
 }
 
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.boost-ad {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff6b35 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.boost-ad:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.boost-ad:hover:before {
+    left: 100%;
+}
+
+.boost-ad:hover {
+    background: linear-gradient(135deg, #ffed4e 0%, #ffc947 50%, #ff5722 100%);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    transform: translateY(-1px);
+}
+
+.boost-ad:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+}
+
 /* Responsive styles for the header */
+
+/* Handle small to medium screens where buttons might overlap */
+@media (max-width: 900px) and (min-width: 769px) {
+    .main-header {
+        gap: 0.5rem;
+    }
+    
+    .search-bar {
+        max-width: calc(100% - 380px); /* More space for buttons */
+    }
+    
+    .header-buttons {
+        gap: 0.25rem;
+    }
+    
+    .boost-ad,
+    .post-free-ad {
+        padding: 0.5rem 0.75rem; /* Slightly smaller padding */
+        font-size: 0.9rem;
+    }
+}
+
+/* Smaller screens - switch to vertical layout earlier */
 @media (max-width: 768px) {
     .main-header {
         flex-direction: column;
-        align-items: stretch; /* Make items stretch to full width */
+        align-items: center; /* Center align everything */
         gap: 1rem;
     }
 
     .search-bar {
         width: 100%;
+        max-width: none; /* Remove max-width constraint */
+        order: 2; /* Put search bar after logo */
     }
 
     .search-bar select {
         width: 50%; /* Balance the select and input fields on mobile */
     }
 
-    .post-ad {
-        justify-content: center; /* Center the text and icon in the button */
+    .header-buttons {
+        justify-content: center; /* Center buttons on mobile */
+        gap: 0.5rem;
+        order: 3; /* Put buttons last */
+    }
+
+    .post-free-ad,
+    .boost-ad {
+        justify-content: center; /* Center the text and icon in the buttons */
+        flex: 1; /* Make buttons equal width on mobile */
+        max-width: 200px; /* Prevent buttons from getting too wide */
     }
 }
 
-/* Medium screen adjustments */
-@media (max-width: 1024px) and (min-width: 769px) {
+/* Large screen adjustments */
+@media (max-width: 1200px) and (min-width: 901px) {
     .main-header {
-        gap: 0.75rem; /* Reduce gap on medium screens */
+        gap: 0.75rem; /* Reduce gap on large screens */
     }
     
     .search-bar {
-        max-width: calc(100% - 250px); /* Adjust reserved space */
+        max-width: calc(100% - 420px); /* Adjust reserved space for two buttons */
     }
     
     .search-bar select {
-        min-width: 120px; /* Ensure select doesn't get too small */
+        min-width: 140px; /* Ensure select doesn't get too small */
+    }
+    
+    .header-buttons {
+        gap: 0.5rem; /* Reduce gap between buttons */
     }
 }

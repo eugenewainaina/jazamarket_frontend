@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { BaseAd, PropertyAd, VehicleAd, MyAdSummary } from '../../types/ads';
 import { formatPrice, formatPostDate } from '../../utils/formatters';
 import './AdDetailView.css';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaRocket } from 'react-icons/fa';
 import EditAdForm from '../EditAdForm/EditAdForm';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -38,6 +38,12 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
     if (onAdUpdated) {
       onAdUpdated();
     }
+  };
+
+  const handleBoostAd = () => {
+    // Placeholder function for boost ad functionality
+    console.log('Boost ad clicked for ad:', ad._id);
+    // Future implementation: redirect to boost ad page or show boost modal
   };
 
   const renderAdSpecificDetails = () => {
@@ -143,12 +149,21 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
             )}
             
             {isMyAd && (
-              <ImageUpload
-                adId={ad._id}
-                currentImages={currentImages}
-                onImagesUpdated={handleImagesUpdated}
-                onAdUpdated={onAdUpdated}
-              />
+              <>
+                <div className="boost-ad-section">
+                  <button className="boost-ad-detail" onClick={handleBoostAd}>
+                    <FaRocket />
+                    Boost Ad
+                  </button>
+                  <p className="boost-ad-description">Boost your Ad to reach more customers</p>
+                </div>
+                <ImageUpload
+                  adId={ad._id}
+                  currentImages={currentImages}
+                  onImagesUpdated={handleImagesUpdated}
+                  onAdUpdated={onAdUpdated}
+                />
+              </>
             )}
             
             <ImageGallery images={currentImages} adName={ad.name} />
