@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaPlus, FaRocket } from 'react-icons/fa';
+import { FaSearch, FaPlus } from 'react-icons/fa';
 import { categories } from '../../data/categories';
 import PostAdForm from '../PostAdForm/PostAdForm';
 import { getCookie } from '../../utils/cookies';
@@ -26,11 +26,6 @@ const MainHeader: React.FC = () => {
     // You might want to add some user feedback here, like a toast notification
   };
 
-  const handleBoostAdClick = () => {
-    // Placeholder function for now - does nothing
-    console.log('Boost Ad clicked');
-  };
-
   return (
     <>
       <div className="main-header">
@@ -54,10 +49,6 @@ const MainHeader: React.FC = () => {
           </button>
         </div>
         <div className="header-buttons">
-          <button className="boost-ad" onClick={handleBoostAdClick}>
-            <FaRocket />
-            Boost Ad
-          </button>
           <button className="post-free-ad" onClick={handlePostAdClick}>
             <FaPlus />
             Post Free Ad

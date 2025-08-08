@@ -6,6 +6,7 @@ import Ad from '../../components/Ad/Ad';
 import AdDetailView from '../../components/AdDetailView/AdDetailView';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import { createApiUrl } from '../../utils/api';
+import { FaRocket } from 'react-icons/fa';
 
 const MyAds: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -52,6 +53,12 @@ const MyAds: React.FC = () => {
     fetchAds();
   };
 
+  const handleBoostAdClick = () => {
+    // Placeholder function for boost ad functionality
+    console.log('Boost Ad clicked');
+    // Add boost ad logic here
+  };
+
   const handleAdClick = (ad: MyAdSummary) => {
     if (selectedAd && selectedAd._id === ad._id) {
       setSelectedAd(null); // Deselect if the same ad is clicked again
@@ -69,7 +76,13 @@ const MyAds: React.FC = () => {
       <div className="my-ads-container">
         <div className="my-ads-header">
           <h3>My Ads</h3>
-          <button className="post-ad-btn" onClick={handlePostAdClick}>Post Ad</button>
+          <div className="my-ads-buttons">
+            <button className="boost-ad-btn" onClick={handleBoostAdClick}>
+              <FaRocket />
+              Boost Ad
+            </button>
+            <button className="post-ad-btn" onClick={handlePostAdClick}>Post Ad</button>
+          </div>
         </div>
         {isLoading ? (
           <LoadingSpinner />
