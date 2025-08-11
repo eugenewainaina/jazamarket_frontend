@@ -41,7 +41,7 @@ const TopBar: React.FC = () => {
   const handleLogout = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(createApiUrl("/logout"), { 
+      const response = await fetch(createApiUrl("/logout"), {
         method: "POST",
         credentials: 'include',
       });
@@ -82,14 +82,14 @@ const TopBar: React.FC = () => {
                 className="account-button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                <FaUser /> Account
+                <FaUser /> My Account
               </button>
               {isMenuOpen && (
                 <div className="dropdown-menu">
-                  <Link to="/dashboard">Dashboard</Link>
+                  {/* <Link to="/dashboard">Dashboard</Link> */}
                   <Link to="/dashboard/my_ads">My Ads</Link>
-                  <Link to="/dashboard/favourite_ads">Favourites</Link>
-                  <Link to="/dashboard/messages">Messages</Link>
+                  {/* <Link to="/dashboard/favourite_ads">Favourites</Link> */}
+                  {/* <Link to="/dashboard/messages">Messages</Link> */}
                   <Link to="/dashboard/profile_settings">Settings</Link>
                   <button onClick={handleLogout} className="logout-button">
                     <FaSignOutAlt /> Logout

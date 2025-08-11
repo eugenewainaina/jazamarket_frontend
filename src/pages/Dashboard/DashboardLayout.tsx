@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import './DashboardLayout.css';
-import { FaTachometerAlt, FaHeart, FaEnvelope, FaCog, FaPlusCircle, FaBars, FaTimes } from 'react-icons/fa';
+import { FaCog, FaPlusCircle, FaBars, FaTimes } from 'react-icons/fa';
+// Commented out unused imports for work-in-progress features:
+// import { FaTachometerAlt, FaHeart, FaEnvelope } from 'react-icons/fa';
 import { useProfile } from '../../context/ProfileContext';
 import { format, parseISO } from 'date-fns';
 
@@ -66,18 +68,18 @@ const DashboardLayout: React.FC = () => {
       
       <div className="dashboard-content">
         <div className={`dashboard-nav ${isNavOpen ? 'nav-open' : ''}`}>
-          <NavLink to="/dashboard" end onClick={closeNav}>
+          {/* <NavLink to="/dashboard" end onClick={closeNav}>
             <FaTachometerAlt /> Dashboard
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/dashboard/my_ads" onClick={closeNav}>
             <FaPlusCircle /> My Ads
           </NavLink>
-          <NavLink to="/dashboard/favourite_ads" onClick={closeNav}>
+          {/* <NavLink to="/dashboard/favourite_ads" onClick={closeNav}>
             <FaHeart /> Favourite Ads
-          </NavLink>
-          <NavLink to="/dashboard/messages" onClick={closeNav}>
+          </NavLink> */}
+          {/* <NavLink to="/dashboard/messages" onClick={closeNav}>
             <FaEnvelope /> Messages
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/dashboard/profile_settings" onClick={closeNav}>
             <FaCog /> Profile Settings
           </NavLink>
