@@ -10,6 +10,7 @@ export interface BaseAd {
   imageLinks?: string[];
   accountID: string;
   _createTime: string;
+  package?: string; // Package level of the ad owner
 }
 
 export interface VehicleAd extends BaseAd {

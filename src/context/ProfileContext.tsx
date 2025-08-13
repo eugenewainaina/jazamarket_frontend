@@ -1,11 +1,24 @@
 import React, { createContext, useState, useEffect, useContext, type ReactNode } from 'react';
 import { createApiUrl } from '../utils/api';
 
+// Define the shape of package levels
+export interface PackageLevel {
+  level: string;
+  expiry: string;
+}
+
+// Define the shape of the package object
+export interface PackageData {
+  "Vehicles": PackageLevel;
+  "Property & Rentals": PackageLevel;
+  "Others": PackageLevel;
+}
+
 // Define the shape of the profile data from the API
 export interface ProfileData {
   fullName: string;
   email: string;
-  package: string;
+  package: PackageData;
   password: string;
   phone?: string;
   address?: string;

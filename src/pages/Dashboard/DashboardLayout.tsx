@@ -30,6 +30,17 @@ const DashboardLayout: React.FC = () => {
     }
   };
 
+  const formatExpiryDate = (dateString: string) => {
+    if (!dateString) return 'N/A';
+    try {
+      const date = parseISO(dateString);
+      return format(date, 'dd MMM yyyy');
+    } catch (error) {
+      console.error('Error formatting expiry date:', error);
+      return 'Invalid Date';
+    }
+  };
+
   if (loading) {
     return <div className="dashboard-layout">Loading...</div>;
   }
@@ -46,12 +57,30 @@ const DashboardLayout: React.FC = () => {
           <div className="user-details">
             <h2>{profile?.fullName || 'User Name'}</h2>
             <div className="user-meta">
-              <p>
-                <span>Package:</span> {profile?.package || 'N/A'}
-              </p>
-              <p>
-                <span>Expiry Date:</span> 2025-12-31
-              </p>
+              <div className="package-info">
+                <h3>Package Information</h3>
+                {profile?.package ? (
+                  <div className="package-categories">
+                    <div className="package-category">
+                      <span className="category-name">Vehicles:</span>
+                      <span className="level">{profile.package["Vehicles"]?.level || 'N/A'}</span>
+                      <span className="expiry">Expires: {formatExpiryDate(profile.package["Vehicles"]?.expiry)}</span>
+                    </div>
+                    <div className="package-category">
+                      <span className="category-name">Property & Rentals:</span>
+                      <span className="level">{profile.package["Property & Rentals"]?.level || 'N/A'}</span>
+                      <span className="expiry">Expires: {formatExpiryDate(profile.package["Property & Rentals"]?.expiry)}</span>
+                    </div>
+                    <div className="package-category">
+                      <span className="category-name">Others:</span>
+                      <span className="level">{profile.package["Others"]?.level || 'N/A'}</span>
+                      <span className="expiry">Expires: {formatExpiryDate(profile.package["Others"]?.expiry)}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <p>No package information available</p>
+                )}
+              </div>
               <p>
                 <span>Account Creation Date:</span> {formatDate(profile?._createTime)}
               </p>

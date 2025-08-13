@@ -7,6 +7,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import type { BaseAd, VehicleAd, PropertyAd } from "../../types/ads";
 import { createApiUrl } from "../../utils/api";
 import { categoryNameToKey, categoryKeyToName } from "../../utils/formatters";
+import { sortAdsByPackagePriority } from "../../utils/packagePriority";
 import { useSEO } from "../../hooks/useSEO";
 import "./AdCategoryPage.css";
 
@@ -54,7 +55,15 @@ const AdCategoryPage: React.FC = () => {
         }
         
         // Ensure data is always an array, even if backend returns null/undefined
-        setAds(Array.isArray(data) ? data : []);
+        const adsArray = Array.isArray(data) ? data : [];
+        
+        // Sort ads by package priority
+        const sortedAds = sortAdsByPackagePriority(
+          adsArray,
+          (ad) => ad.package || 'Explorer' // Default to Explorer if no package specified
+        );
+        
+        setAds(sortedAds);
       } catch (err) {
         console.error('Error fetching ads:', err);
         setError(

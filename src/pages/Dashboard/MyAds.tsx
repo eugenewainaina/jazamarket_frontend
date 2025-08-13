@@ -26,7 +26,15 @@ const MyAds: React.FC = () => {
       const text = await response.text();
       const data = text ? JSON.parse(text) : [];
       const validAds = Array.isArray(data) ? data.filter(ad => ad && ad._id) : [];
-      setAds(validAds);
+      
+      // Sort by posting date (newest first)
+      const sortedAds = validAds.sort((a, b) => {
+        const dateA = new Date(a._createTime).getTime();
+        const dateB = new Date(b._createTime).getTime();
+        return dateB - dateA; // Newest first
+      });
+      
+      setAds(sortedAds);
     } catch (error) {
       console.error('Error fetching ads:', error);
       setAds([]);
