@@ -1,6 +1,6 @@
 .header {
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
+    background-color: var(--dark-blue);
+    border-bottom: 1px solid #0a3d91;
 }
 
 .top-bar {
@@ -47,7 +47,7 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--dark-blue);
+    color: white;
 }
 
 .top-bar-links {
