@@ -76,6 +76,7 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
+    overflow: visible;
 }
 
 .login-form-container .input-with-icon svg {
@@ -89,6 +90,11 @@
     margin-top: 0 !important;
 }
 
+.login-form-container .password-toggle-icon svg {
+    pointer-events: auto !important;
+    z-index: 100 !important;
+}
+
 .login-form-container .input-with-icon input {
     width: 100% !important;
     padding: 0.75rem 0.75rem 0.75rem 35px !important;
@@ -96,10 +102,6 @@
     border-radius: 5px !important;
     box-sizing: border-box !important;
     max-width: 100% !important;
-}
-
-.login-form-container .input-with-icon input[type="password"] {
-    padding-right: 40px !important;
 }
 
 .forgot-password {
@@ -126,6 +128,28 @@
     background-color: #23272b;
 }
 
+.btn-continue {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #343a40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn-continue:hover {
+    background-color: #23272b;
+}
+
+.btn-continue:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
 .error-message {
   color: #dc3545;
   font-size: 0.875em;
@@ -134,18 +158,6 @@
 
 .input-with-icon input.invalid {
   border-color: #dc3545;
-}
-
-.login-form-container .password-toggle-icon {
-    position: absolute !important;
-    right: 12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    cursor: pointer !important;
-    color: #6c757d !important;
-    z-index: 10 !important;
-    pointer-events: auto !important;
-    margin-top: 0 !important;
 }
 
 /* Responsive design for smaller screens */
@@ -157,6 +169,6 @@
     }
     
     .login-form-container .input-with-icon input {
-        padding: 0.75rem 0.75rem 0.75rem 35px !important;
+        padding: 0.75rem 45px 0.75rem 35px !important;
     }
 }

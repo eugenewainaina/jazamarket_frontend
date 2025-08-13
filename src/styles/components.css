@@ -246,6 +246,44 @@
   color: var(--primary-red);
 }
 
+/* Password Toggle Icon Styles - Shared across all forms */
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input[type="password"] {
+  padding-right: 45px;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  z-index: 100;
+  pointer-events: auto;
+  margin-top: 0;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-icon:hover {
+  color: #495057;
+}
+
+.password-toggle-icon svg {
+  pointer-events: auto;
+  z-index: 101;
+}
+
 /* Badge Styles */
 .badge {
   display: inline-block;

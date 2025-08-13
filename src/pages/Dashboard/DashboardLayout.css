@@ -29,6 +29,11 @@
   transition: background-color 0.2s;
 }
 
+.hamburger-menu svg {
+  color: var(--dark-blue);
+  fill: var(--dark-blue);
+}
+
 .hamburger-menu:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
