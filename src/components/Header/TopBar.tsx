@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaGlobe, FaUser, FaPencilAlt, FaSignOutAlt } from "react-icons/fa";
+import { /*FaGlobe,*/ FaUser, FaPencilAlt, FaSignOutAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getCookie, eraseCookie } from "../../utils/cookies";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
