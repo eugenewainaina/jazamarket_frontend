@@ -19,7 +19,7 @@ interface HomepageAd {
   category: string;
   subcategory: string;
   package: string;
-  expiry: string;
+  _createTime: string;
 }
 
 const HomepageAds: React.FC = () => {
@@ -97,7 +97,7 @@ const HomepageAds: React.FC = () => {
     subcategory: homepageAd.subcategory,
     adImageURL: homepageAd.adImageURL,
     accountID: homepageAd.accountID,
-    _createTime: homepageAd.expiry, // Using expiry as createTime since it's not provided
+    _createTime: homepageAd._createTime,
     package: homepageAd.package,
   });
 

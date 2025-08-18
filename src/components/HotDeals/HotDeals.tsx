@@ -19,7 +19,7 @@ interface HotDealsAd {
   category: string;
   subcategory: string;
   package: string;
-  expiry: string;
+  _createTime: string;
 }
 
 const HotDeals: React.FC = () => {
@@ -157,7 +157,7 @@ const HotDeals: React.FC = () => {
     subcategory: hotDealsAd.subcategory,
     adImageURL: hotDealsAd.adImageURL,
     accountID: hotDealsAd.accountID,
-    _createTime: hotDealsAd.expiry, // Using expiry as createTime since it's not provided
+    _createTime: hotDealsAd._createTime,
     package: hotDealsAd.package,
   });
 
