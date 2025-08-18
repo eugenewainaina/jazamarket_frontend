@@ -1,6 +1,7 @@
 import React from 'react';
 import Categories from '../../components/Categories/Categories';
 import BannerCarousel from '../../components/Banner/BannerCarousel';
+import HomepageAds from '../../components/HomepageAds/HomepageAds';
 import { useSEO } from '../../hooks/useSEO';
 import { categoryNameToKey } from '../../utils/formatters';
 import './HomePage.css';
@@ -47,6 +48,7 @@ const HomePage: React.FC = () => {
         className="top-banner"
       />
       <Categories />
+      <HomepageAds />
       <BannerCarousel
         banners={bottomBanners}
         className="bottom-banner"

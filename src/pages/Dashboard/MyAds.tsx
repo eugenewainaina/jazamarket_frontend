@@ -14,7 +14,26 @@ const MyAds: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAd, setSelectedAd] = useState<MyAdSummary | null>(null);
 
-  const fetchAds = useCallback(async () => {
+  const CACHE_KEY = 'dashboard_my_ads_cache';
+
+  const fetchAds = useCallback(async (forceRefresh = false) => {
+    // Check if we have cached data and don't force refresh
+    if (!forceRefresh) {
+      const cachedData = sessionStorage.getItem(CACHE_KEY);
+      if (cachedData) {
+        try {
+          const parsedData = JSON.parse(cachedData);
+          setAds(parsedData);
+          setIsLoading(false);
+          return; // Use cached data, don't fetch
+        } catch (error) {
+          console.error('Error parsing cached data:', error);
+          // If cache is corrupted, continue to fetch fresh data
+        }
+      }
+    }
+
+    // Fetch fresh data from API
     setIsLoading(true);
     try {
       const response = await fetch(createApiUrl('/my_ads'), {
@@ -35,13 +54,16 @@ const MyAds: React.FC = () => {
       });
       
       setAds(sortedAds);
+      
+      // Cache the fresh data
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify(sortedAds));
     } catch (error) {
       console.error('Error fetching ads:', error);
       setAds([]);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [CACHE_KEY]);
 
   useEffect(() => {
     fetchAds();
@@ -58,7 +80,7 @@ const MyAds: React.FC = () => {
   const handleAdPosted = () => {
     console.log('Ad posted successfully!');
     setShowModal(false);
-    fetchAds();
+    fetchAds(true); // Force refresh after posting new ad
   };
 
   const handleBoostAdClick = () => {
@@ -109,7 +131,7 @@ const MyAds: React.FC = () => {
                       ad={selectedAd}
                       onClose={handleCloseDetailView}
                       isMyAd={true}
-                      onAdUpdated={fetchAds} // Pass the fetchAds function
+                      onAdUpdated={() => fetchAds(true)} // Force refresh after ad update
                     />
                   )}
                 </React.Fragment>

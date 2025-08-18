@@ -1,0 +1,54 @@
+.homepage-ads-section {
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+.homepage-ads-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-weight: bold;
+}
+
+.homepage-ads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .homepage-ads-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .homepage-ads-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .homepage-ads-section {
+    padding: 15px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage-ads-grid {
+    gap: 10px;
+  }
+  
+  .homepage-ads-title {
+    font-size: 1.3rem;
+  }
+}

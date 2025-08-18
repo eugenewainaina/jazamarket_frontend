@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import './DashboardLayout.css';
 import { FaCog, FaPlusCircle, FaBars, FaTimes } from 'react-icons/fa';
@@ -10,6 +10,13 @@ import { format, parseISO } from 'date-fns';
 const DashboardLayout: React.FC = () => {
   const { profile, loading } = useProfile();
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  // Clear MyAds cache when leaving dashboard
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem('dashboard_my_ads_cache');
+    };
+  }, []);
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
