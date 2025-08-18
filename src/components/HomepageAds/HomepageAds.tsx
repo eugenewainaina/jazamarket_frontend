@@ -104,7 +104,7 @@ const HomepageAds: React.FC = () => {
   if (loading) {
     return (
       <div className="homepage-ads-section">
-        <h2 className="homepage-ads-title">Featured Ads</h2>
+        <h2 className="homepage-ads-title">Trending Ads</h2>
         <LoadingSpinner />
       </div>
     );
@@ -113,7 +113,7 @@ const HomepageAds: React.FC = () => {
   if (error) {
     return (
       <div className="homepage-ads-section">
-        <h2 className="homepage-ads-title">Featured Ads</h2>
+        <h2 className="homepage-ads-title">Trending Ads</h2>
         <div className="error-message">{error}</div>
       </div>
     );
@@ -125,7 +125,7 @@ const HomepageAds: React.FC = () => {
 
   return (
     <div className="homepage-ads-section">
-      <h2 className="homepage-ads-title">Featured Ads</h2>
+      <h2 className="homepage-ads-title">Trending Ads</h2>
       <div className="homepage-ads-grid">
         {ads.map((ad) => {
           const baseAd = convertToBaseAd(ad);

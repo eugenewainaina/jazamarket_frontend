@@ -1,7 +1,8 @@
 import React from 'react';
-import Categories from '../../components/Categories/Categories';
+import CategorySidebar from '../../components/CategorySidebar/CategorySidebar';
 import BannerCarousel from '../../components/Banner/BannerCarousel';
 import HomepageAds from '../../components/HomepageAds/HomepageAds';
+import HotDeals from '../../components/HotDeals/HotDeals';
 import { useSEO } from '../../hooks/useSEO';
 import { categoryNameToKey } from '../../utils/formatters';
 import './HomePage.css';
@@ -47,8 +48,16 @@ const HomePage: React.FC = () => {
         banners={topBanners}
         className="top-banner"
       />
-      <Categories />
-      <HomepageAds />
+      
+      <div className="main-content-wrapper">
+        <CategorySidebar />
+        
+        <div className="main-content">
+          <HotDeals />
+          <HomepageAds />
+        </div>
+      </div>
+      
       <BannerCarousel
         banners={bottomBanners}
         className="bottom-banner"

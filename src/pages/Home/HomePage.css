@@ -1,6 +1,9 @@
 .homepage-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .top-banner {
@@ -9,4 +12,41 @@
 
 .bottom-banner {
   margin-top: 1rem;
+}
+
+.main-content-wrapper {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0; /* Prevents flex child from overflowing */
+  overflow: hidden; /* Prevent content from overflowing */
+  width: 100%; /* Ensure full width usage */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .main-content-wrapper {
+    flex-direction: column;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content-wrapper {
+    padding: 0 0.5rem;
+  }
 }
