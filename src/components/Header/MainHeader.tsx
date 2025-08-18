@@ -29,8 +29,11 @@ const MainHeader: React.FC = () => {
   return (
     <>
       <div className="main-header">
-        <Link to="/">
-          <img src="/Logo.png" alt="JazaMarket" className="logo" />
+        <Link to="/" className="logo-link">
+          <div className="logo logo-base">
+            <span className="logo-jaza">Jaza</span>
+            <span className="logo-market">Market</span>
+          </div>
         </Link>
         <div className="search-bar">
           <div className="search-input-group">

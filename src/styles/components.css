@@ -1,5 +1,35 @@
 /* JazaMarket Global Component Styles */
 
+/* Logo Styles */
+.logo-base {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo-jaza {
+  color: #ff4444;
+}
+
+.logo-market {
+  color: white;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.logo-link:hover .logo-jaza {
+  color: #ff6666;
+}
+
+.logo-link:hover .logo-market {
+  color: #f0f8ff;
+}
+
 /* Button Styles */
 .btn {
   display: inline-block;

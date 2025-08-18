@@ -37,7 +37,10 @@ const Footer: React.FC = () => {
           <p><FaEnvelope /> support@jazamarket.com</p>
         </div>
         <div className="footer-column">
-            <img src="/Logo.png" alt="JazaMarket" className="footer-logo" />
+          <div className="footer-logo logo-base">
+            <span className="logo-jaza">Jaza</span>
+            <span className="logo-market">Market</span>
+          </div>
           <p>Instant Deals, Endless Possibilities!</p>
           <div className="social-icons">
             <a href="#"><FaFacebookF /></a>

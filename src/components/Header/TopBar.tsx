@@ -66,14 +66,14 @@ const TopBar: React.FC = () => {
       {isLoading && <LoadingSpinner />}
       <div className="top-bar">
         <div className="top-bar-left">
-          <div className="language-selector">
+          {/*<div className="language-selector">
             <FaGlobe />
             <span>Language</span>
             <select>
               <option>English</option>
               <option>Swahili</option>
             </select>
-          </div>
+          </div>*/}
         </div>
         <div className="top-bar-right">
           {isLoggedIn ? (

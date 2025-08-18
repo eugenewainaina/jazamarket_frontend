@@ -98,8 +98,9 @@
 }
 
 .logo {
-    height: 50px;
-    flex-shrink: 0; /* Prevent logo from shrinking */
+    font-size: 40px;
+    line-height: 50px;
+    padding: 0 10px;
 }
 
 .search-bar {

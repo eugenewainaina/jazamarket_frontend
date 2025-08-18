@@ -5,6 +5,7 @@ import type { MyAdSummary } from '../../types/ads';
 import Ad from '../../components/Ad/Ad';
 import AdDetailView from '../../components/AdDetailView/AdDetailView';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import BoostPackagesPopup from '../../components/BoostPackagesPopup/BoostPackagesPopup';
 import { createApiUrl } from '../../utils/api';
 import { FaRocket } from 'react-icons/fa';
 
@@ -13,6 +14,7 @@ const MyAds: React.FC = () => {
   const [ads, setAds] = useState<MyAdSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAd, setSelectedAd] = useState<MyAdSummary | null>(null);
+  const [showBoostPopup, setShowBoostPopup] = useState(false);
 
   const CACHE_KEY = 'dashboard_my_ads_cache';
 
@@ -84,9 +86,12 @@ const MyAds: React.FC = () => {
   };
 
   const handleBoostAdClick = () => {
-    // Placeholder function for boost ad functionality
-    console.log('Boost Ad clicked');
-    // Add boost ad logic here
+    // Open the boost packages popup
+    setShowBoostPopup(true);
+  };
+
+  const handleCloseBoostPopup = () => {
+    setShowBoostPopup(false);
   };
 
   const handleAdClick = (ad: MyAdSummary) => {
@@ -145,6 +150,13 @@ const MyAds: React.FC = () => {
         )}
       </div>
       {showModal && <PostAdForm onClose={handleCloseModal} onSuccess={handleAdPosted} />}
+      
+      {/* Boost Packages Popup */}
+      <BoostPackagesPopup
+        isOpen={showBoostPopup}
+        onClose={handleCloseBoostPopup}
+        adCategory="general"
+      />
     </>
   );
 };

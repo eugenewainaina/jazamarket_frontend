@@ -7,6 +7,7 @@ import EditAdForm from '../EditAdForm/EditAdForm';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import ContactDetails from '../ContactDetails/ContactDetails';
+import BoostPackagesPopup from '../BoostPackagesPopup/BoostPackagesPopup';
 import { createApiUrl } from '../../utils/api';
 
 interface AdDetailViewProps {
@@ -19,6 +20,7 @@ interface AdDetailViewProps {
 const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentImages, setCurrentImages] = useState<string[]>(ad.imageLinks || []);
+  const [showBoostPopup, setShowBoostPopup] = useState(false);
 
   // Sync local state when ad prop changes (after refresh)
   useEffect(() => {
@@ -41,9 +43,12 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
   };
 
   const handleBoostAd = () => {
-    // Placeholder function for boost ad functionality
-    console.log('Boost ad clicked for ad:', ad._id);
-    // Future implementation: redirect to boost ad page or show boost modal
+    // Open the boost packages popup
+    setShowBoostPopup(true);
+  };
+
+  const handleCloseBoostPopup = () => {
+    setShowBoostPopup(false);
   };
 
   const renderAdSpecificDetails = () => {
@@ -170,6 +175,13 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
           </div>
         </div>
       </div>
+      
+      {/* Boost Packages Popup */}
+      <BoostPackagesPopup
+        isOpen={showBoostPopup}
+        onClose={handleCloseBoostPopup}
+        adCategory={ad.category}
+      />
     </div>
   );
 };
