@@ -89,3 +89,12 @@ export const useProfile = () => {
   }
   return context;
 };
+
+// Create a safe version that doesn't throw when ProfileProvider is not available
+export const useSafeProfile = () => {
+  const context = useContext(ProfileContext);
+  if (context === undefined) {
+    return { profile: null, loading: false, error: null, fetchProfile: () => {} };
+  }
+  return context;
+};

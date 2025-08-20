@@ -176,12 +176,14 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
         </div>
       </div>
       
-      {/* Boost Packages Popup */}
-      <BoostPackagesPopup
-        isOpen={showBoostPopup}
-        onClose={handleCloseBoostPopup}
-        adCategory={ad.category}
-      />
+      {/* Boost Packages Popup - only render if it's the user's ad */}
+      {isMyAd && (
+        <BoostPackagesPopup
+          isOpen={showBoostPopup}
+          onClose={handleCloseBoostPopup}
+          adCategory={ad.category}
+        />
+      )}
     </div>
   );
 };

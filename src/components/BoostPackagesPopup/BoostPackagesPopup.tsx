@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './BoostPackagesPopup.css';
 import PaymentDetailsPopup from '../PaymentDetailsPopup/PaymentDetailsPopup';
-import { useProfile } from '../../context/ProfileContext';
+import { useSafeProfile } from '../../context/ProfileContext';
 import { 
     FaCompass,     // 🧭 Explorer
     FaRocket,      // 🚀 Starter Pack & Pro Launch  
@@ -42,7 +42,7 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
     const [selectedPackage, setSelectedPackage] = useState<{name: string, price: string}>({name: '', price: ''});
     const [monthSelectionOpen, setMonthSelectionOpen] = useState(false);
     const [selectedPackageForMonths, setSelectedPackageForMonths] = useState<Package | null>(null);
-    const { profile } = useProfile();
+    const { profile } = useSafeProfile();
 
     if (!isOpen) return null;
 
