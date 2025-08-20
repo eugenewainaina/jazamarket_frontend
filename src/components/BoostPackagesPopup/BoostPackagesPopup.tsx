@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import './BoostPackagesPopup.css';
 import PaymentDetailsPopup from '../PaymentDetailsPopup/PaymentDetailsPopup';
 import { useProfile } from '../../context/ProfileContext';
+import { 
+    FaCompass,     // 🧭 Explorer
+    FaRocket,      // 🚀 Starter Pack & Pro Launch  
+    FaBolt,        // ⚡ Momentum
+    FaCar,         // 🏎️ Accelerate
+    FaMountain,    // ⛰️ Pinnacle Silver
+    FaCrown,       // 👑 Pinnacle Elite
+    FaGem,         // 💎 Maximizer Gold
+    FaStar,        // ⭐ Maximizer Pro
+    FaInfinity     // ♾️ Infinity Suite
+} from 'react-icons/fa';
 
 interface Package {
     name: string;
@@ -322,6 +333,34 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
         return targetIndex > currentIndex;
     };
 
+    // Helper function to get package icon based on your guide
+    const getPackageIcon = (packageName: string) => {
+        switch (packageName) {
+            case 'Explorer':
+                return <FaCompass className="package-icon" />;
+            case 'Starter Pack':
+                return <FaRocket className="package-icon" />;
+            case 'Momentum':
+                return <FaBolt className="package-icon" />;
+            case 'Accelerate':
+                return <FaCar className="package-icon" />;
+            case 'Pro Launch':
+                return <FaRocket className="package-icon" />;
+            case 'Pinnacle Silver':
+                return <FaMountain className="package-icon" />;
+            case 'Pinnacle Elite':
+                return <FaCrown className="package-icon" />;
+            case 'Maximizer Gold':
+                return <FaGem className="package-icon" />;
+            case 'Maximizer Pro':
+                return <FaStar className="package-icon" />;
+            case 'Infinity Suite':
+                return <FaInfinity className="package-icon" />;
+            default:
+                return null;
+        }
+    };
+
     const renderPackageCard = (pkg: Package, category: string = '') => {
         const currentLevel = getCurrentPackageLevel(category);
         const isCurrentPackage = pkg.name === currentLevel;
@@ -331,7 +370,10 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
         return (
             <div key={pkg.name} className={`package-card ${isFree ? 'free-package' : ''} ${isCurrentPackage ? 'current-package' : ''} ${isCurrentPackage && isExpired ? 'expired-package' : ''}`}>
                 <div className="package-header">
-                    <h3 className="package-name">{pkg.name}</h3>
+                    <h3 className="package-name">
+                        {getPackageIcon(pkg.name)}
+                        <span className="package-name-text">{pkg.name}</span>
+                    </h3>
                     {isCurrentPackage && !isExpired && (
                         <div className="current-package-badge">Current Plan</div>
                     )}

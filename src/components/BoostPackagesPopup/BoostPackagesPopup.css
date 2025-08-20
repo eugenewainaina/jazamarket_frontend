@@ -177,6 +177,55 @@
   font-weight: 700;
   margin: 0 0 8px 0;
   color: #2c3e50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.package-icon {
+  font-size: 1.1rem;
+}
+
+/* Package-specific icon colors */
+.package-icon.explorer {
+  color: #8b4513; /* Brown for compass */
+}
+
+.package-icon.starter {
+  color: #3498db; /* Blue for rocket */
+}
+
+.package-icon.momentum {
+  color: #f39c12; /* Orange/yellow for bolt */
+}
+
+.package-icon.accelerate {
+  color: #e74c3c; /* Red for car */
+}
+
+.package-icon.pro-launch {
+  color: #9b59b6; /* Purple for big rocket */
+}
+
+.package-icon.pinnacle-silver {
+  color: #95a5a6; /* Silver for mountain */
+}
+
+.package-icon.pinnacle-elite {
+  color: #f1c40f; /* Gold for crown */
+}
+
+.package-icon.maximizer-gold {
+  color: #f39c12; /* Gold for gem */
+}
+
+.package-icon.maximizer-pro {
+  color: #e67e22; /* Platinum/bronze for star */
+}
+
+.package-icon.infinity-suite {
+  color: #6c5ce7; /* Purple for infinity */
 }
 
 .package-listings {

@@ -117,3 +117,23 @@
     font-size: 0.9rem;
     color: #adb5bd;
 }
+
+/* Link button styling for protected routes */
+.link-button {
+    background: none;
+    border: none;
+    color: #adb5bd;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    transition: color 0.3s ease;
+}
+
+.link-button:hover {
+    color: var(--primary-red);
+    text-decoration: underline;
+}

@@ -1,9 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaMapMarkerAlt, FaPhone, FaEnvelope, FaFacebookF, FaTwitter, FaGooglePlusG, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
+import { getCookie } from '../../utils/cookies';
 import './Footer.css';
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleProtectedRoute = (route: string, routeName: string) => {
+    const token = getCookie('jazamarket_token');
+    
+    if (!token) {
+      alert(`Please log in to access ${routeName}. You need to be logged in to view this page.`);
+      return;
+    }
+    
+    navigate(route);
+  };
+
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -23,8 +37,24 @@ const Footer: React.FC = () => {
           <h4>USEFUL LINKS</h4>
           <ul>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/dashboard/my_ads">My Ads</Link></li>
-            <li><Link to="/dashboard/profile_settings">My Settings</Link></li>
+            <li>
+              <button 
+                type="button" 
+                onClick={() => handleProtectedRoute('/dashboard/my_ads', 'My Ads')}
+                className="link-button"
+              >
+                My Ads
+              </button>
+            </li>
+            <li>
+              <button 
+                type="button" 
+                onClick={() => handleProtectedRoute('/dashboard/profile_settings', 'Profile Settings')}
+                className="link-button"
+              >
+                My Settings
+              </button>
+            </li>
             <li><Link to="/contact">Contact Us</Link></li>
             <li><Link to="/blog">Blog</Link></li>
           </ul>
