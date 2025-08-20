@@ -29,6 +29,8 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
 }) => {
     const [paymentPopupOpen, setPaymentPopupOpen] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState<{name: string, price: string}>({name: '', price: ''});
+    const [monthSelectionOpen, setMonthSelectionOpen] = useState(false);
+    const [selectedPackageForMonths, setSelectedPackageForMonths] = useState<Package | null>(null);
     const { profile } = useProfile();
 
     if (!isOpen) return null;
@@ -112,6 +114,44 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
         }
     ];
 
+    const standardOthersPackages: Package[] = [
+        {
+            name: "Explorer",
+            listings: "5 ads max",
+            powerUpLevel: "Free",
+            price1_3_6_12: ["Free", "Free", "Free", "Free"],
+            adCounts: [5, 5, 5, 5]
+        },
+        {
+            name: "Starter Pack",
+            listings: "Premium visibility", 
+            powerUpLevel: "5x more clients",
+            price1_3_6_12: ["KSh 1,649", "KSh 4,099", "KSh 7,799", "KSh 13,999"],
+            adCounts: [20, 30, 40, 60]
+        },
+        {
+            name: "Momentum",
+            listings: "Enhanced visibility",
+            powerUpLevel: "10x more clients",
+            price1_3_6_12: ["KSh 3,599", "KSh 8,999", "KSh 16,999", "KSh 29,999"],
+            adCounts: [40, 60, 80, 120]
+        },
+        {
+            name: "Accelerate",
+            listings: "High visibility", 
+            powerUpLevel: "15x more clients",
+            price1_3_6_12: ["KSh 5,349", "KSh 13,499", "KSh 24,999", "KSh 43,999"],
+            adCounts: [60, 90, 120, 180]
+        },
+        {
+            name: "Pro Launch",
+            listings: "Maximum visibility",
+            powerUpLevel: "20x more clients",
+            price1_3_6_12: ["KSh 7,649", "KSh 18,499", "KSh 33,999", "KSh 59,999"],
+            adCounts: [80, 120, 160, 240]
+        }
+    ];
+
     // Elite packages - shown once at the end
     const elitePackages: Package[] = [
         {
@@ -176,14 +216,35 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
         }
     ];
 
-    const handleGetPackage = (packageName: string, packagePrice: string) => {
-        setSelectedPackage({ name: packageName, price: packagePrice });
-        setPaymentPopupOpen(true);
+    const handleGetPackage = (pkg: Package) => {
+        // For Explorer (free package), no month selection needed
+        if (pkg.name === 'Explorer') {
+            return;
+        }
+        
+        setSelectedPackageForMonths(pkg);
+        setMonthSelectionOpen(true);
+    };
+
+    const handleMonthSelection = (monthIndex: number) => {
+        if (selectedPackageForMonths) {
+            setSelectedPackage({ 
+                name: selectedPackageForMonths.name, 
+                price: selectedPackageForMonths.price1_3_6_12[monthIndex] 
+            });
+            setMonthSelectionOpen(false);
+            setPaymentPopupOpen(true);
+        }
     };
 
     const closePaymentPopup = () => {
         setPaymentPopupOpen(false);
         setSelectedPackage({name: '', price: ''});
+    };
+
+    const closeMonthSelection = () => {
+        setMonthSelectionOpen(false);
+        setSelectedPackageForMonths(null);
     };
 
     // Helper function to get current package level for a category
@@ -372,7 +433,7 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
                 {pkg.name !== 'Explorer' ? (
                     <button
                         className="get-package-btn"
-                        onClick={() => handleGetPackage(pkg.name, pkg.price1_3_6_12[0])}
+                        onClick={() => handleGetPackage(pkg)}
                     >
                         {isCurrentPackage && isExpired ? 'Renew' : 
                          isCurrentPackage ? 'Current Plan' :
@@ -405,9 +466,11 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
                                     <strong>Section:</strong>
                                     <div>Vehicles</div>
                                     <div>Property & Rentals</div>
+                                    <div>Others</div>
                                 </div>
                                 <div>
                                     <strong>Access:</strong>
+                                    <div>Maximum 5 ads with limited visibility</div>
                                     <div>Maximum 5 ads with limited visibility</div>
                                     <div>Maximum 5 ads with limited visibility</div>
                                 </div>
@@ -446,8 +509,19 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
                         </div>
                     </div>
 
+                    <div className="others-packages-section">
+                        <h3>4. FOR OTHERS</h3>
+                        
+                        <div className="category-section">
+                            <h4>Standard Packages</h4>
+                            <div className="packages-grid">
+                                {standardOthersPackages.map(pkg => renderPackageCard(pkg, 'Others'))}
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="elite-packages-section">
-                        <h3>3. ELITE PACKAGES</h3>
+                        <h3>5. ELITE PACKAGES</h3>
                         <p>Cross-category packages for agencies and multi-category sellers</p>
                         <div className="packages-grid">
                             {elitePackages.map(pkg => renderPackageCard(pkg, 'elite'))}
@@ -455,6 +529,91 @@ const BoostPackagesPopup: React.FC<BoostPackagesPopupProps> = ({
                     </div>
                 </div>
             </div>
+            
+            {/* Month Selection Popup */}
+            {monthSelectionOpen && selectedPackageForMonths && (
+                <div className="month-selection-overlay">
+                    <div className="month-selection-popup">
+                        <div className="month-popup-header">
+                            <h3>Select Duration for {selectedPackageForMonths.name}</h3>
+                            <button className="close-btn" onClick={closeMonthSelection}>×</button>
+                        </div>
+                        <div className="month-options">
+                            <button 
+                                className="month-option"
+                                onClick={() => handleMonthSelection(0)}
+                            >
+                                <div className="month-duration">1 Month</div>
+                                <div className="month-price">{selectedPackageForMonths.price1_3_6_12[0]}</div>
+                                {selectedPackageForMonths.adCounts && (
+                                    <div className="month-ads">{selectedPackageForMonths.adCounts[0] === -1 ? 'Unlimited' : `${selectedPackageForMonths.adCounts[0]} ads`}</div>
+                                )}
+                                {selectedPackageForMonths.categoryCounts && (
+                                    <div className="month-ads-breakdown">
+                                        <div>Cars: {selectedPackageForMonths.categoryCounts.cars[0] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.cars[0]}</div>
+                                        <div>Property: {selectedPackageForMonths.categoryCounts.property[0] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.property[0]}</div>
+                                        <div>Others: {selectedPackageForMonths.categoryCounts.others[0] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.others[0]}</div>
+                                    </div>
+                                )}
+                            </button>
+                            
+                            <button 
+                                className="month-option"
+                                onClick={() => handleMonthSelection(1)}
+                            >
+                                <div className="month-duration">3 Months</div>
+                                <div className="month-price">{selectedPackageForMonths.price1_3_6_12[1]}</div>
+                                {selectedPackageForMonths.adCounts && (
+                                    <div className="month-ads">{selectedPackageForMonths.adCounts[1] === -1 ? 'Unlimited' : `${selectedPackageForMonths.adCounts[1]} ads`}</div>
+                                )}
+                                {selectedPackageForMonths.categoryCounts && (
+                                    <div className="month-ads-breakdown">
+                                        <div>Cars: {selectedPackageForMonths.categoryCounts.cars[1] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.cars[1]}</div>
+                                        <div>Property: {selectedPackageForMonths.categoryCounts.property[1] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.property[1]}</div>
+                                        <div>Others: {selectedPackageForMonths.categoryCounts.others[1] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.others[1]}</div>
+                                    </div>
+                                )}
+                            </button>
+                            
+                            <button 
+                                className="month-option"
+                                onClick={() => handleMonthSelection(2)}
+                            >
+                                <div className="month-duration">6 Months</div>
+                                <div className="month-price">{selectedPackageForMonths.price1_3_6_12[2]}</div>
+                                {selectedPackageForMonths.adCounts && (
+                                    <div className="month-ads">{selectedPackageForMonths.adCounts[2] === -1 ? 'Unlimited' : `${selectedPackageForMonths.adCounts[2]} ads`}</div>
+                                )}
+                                {selectedPackageForMonths.categoryCounts && (
+                                    <div className="month-ads-breakdown">
+                                        <div>Cars: {selectedPackageForMonths.categoryCounts.cars[2] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.cars[2]}</div>
+                                        <div>Property: {selectedPackageForMonths.categoryCounts.property[2] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.property[2]}</div>
+                                        <div>Others: {selectedPackageForMonths.categoryCounts.others[2] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.others[2]}</div>
+                                    </div>
+                                )}
+                            </button>
+                            
+                            <button 
+                                className="month-option"
+                                onClick={() => handleMonthSelection(3)}
+                            >
+                                <div className="month-duration">12 Months</div>
+                                <div className="month-price">{selectedPackageForMonths.price1_3_6_12[3]}</div>
+                                {selectedPackageForMonths.adCounts && (
+                                    <div className="month-ads">{selectedPackageForMonths.adCounts[3] === -1 ? 'Unlimited' : `${selectedPackageForMonths.adCounts[3]} ads`}</div>
+                                )}
+                                {selectedPackageForMonths.categoryCounts && (
+                                    <div className="month-ads-breakdown">
+                                        <div>Cars: {selectedPackageForMonths.categoryCounts.cars[3] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.cars[3]}</div>
+                                        <div>Property: {selectedPackageForMonths.categoryCounts.property[3] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.property[3]}</div>
+                                        <div>Others: {selectedPackageForMonths.categoryCounts.others[3] === -1 ? 'Unlimited' : selectedPackageForMonths.categoryCounts.others[3]}</div>
+                                    </div>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             
             <PaymentDetailsPopup
                 isOpen={paymentPopupOpen}
