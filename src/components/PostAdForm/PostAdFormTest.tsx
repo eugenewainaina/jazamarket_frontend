@@ -5,7 +5,6 @@ import { kenyanCounties } from '../../data/counties';
 import { validateString, validatePrice } from '../../validation/validators';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { formatString, formatNumberString } from '../../utils/formatters';
-import { createApiUrl } from '../../utils/api';
 
 interface PostAdFormTestProps {
   onClose: () => void;
