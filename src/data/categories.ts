@@ -20,6 +20,7 @@ export const categories = [
 ];
 
 export const vehicleSubcategories = [
+  "For Hire",
   "SUV",
   "Sedan",
   "Truck",

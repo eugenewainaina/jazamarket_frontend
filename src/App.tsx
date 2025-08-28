@@ -18,6 +18,7 @@ import FAQ from './pages/InformationPages/FAQ/FAQ.tsx';
 import Blog from './pages/Blog/Blog.tsx';
 import IntellectualProperty from './pages/InformationPages/IntellectualProperty/IntellectualProperty.tsx';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop.tsx';
+import TestPage from './pages/TestPage/TestPage.tsx';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
       <Route path="/faq" element={<FAQ />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/intellectual-property" element={<IntellectualProperty />} />
+      <Route path="/test" element={<TestPage />} />
       <Route
         path="/dashboard"
         element={
