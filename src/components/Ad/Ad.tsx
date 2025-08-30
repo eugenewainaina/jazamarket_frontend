@@ -20,8 +20,11 @@ const Ad: React.FC<AdProps> = ({ ad, onClick, isSelected }) => {
     return `KSh ${numericPrice.toLocaleString()}`;
   };
 
+  // Check if ad should have golden background (all packages except Explorer)
+  const hasGoldenBackground = ad.package && ad.package !== 'Explorer';
+
   return (
-    <div className={`ad-card ${isSelected ? 'selected' : ''}`} onClick={onClick}>
+    <div className={`ad-card ${isSelected ? 'selected' : ''} ${hasGoldenBackground ? 'premium-ad' : ''}`} onClick={onClick}>
       <div className="ad-image-container">
         {ad.adImageURL ? (
           <img src={ad.adImageURL} alt={ad.name} className="ad-image" />

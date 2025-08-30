@@ -109,6 +109,7 @@
 
 .btn-submit:disabled {
   background-color: var(--subtext);
+  cursor: not-allowed;
 }
 
 .image-preview {
@@ -121,4 +122,327 @@
   max-height: 200px;
   border-radius: 4px;
   border: 1px solid #ddd;
+}
+
+/* Image Upload Specific Styles */
+.image-upload-info {
+  margin-top: 0.5rem;
+}
+
+.image-upload-info small {
+  color: var(--subtext);
+  font-size: 0.875rem;
+}
+
+.processing-message {
+  color: var(--primary-blue);
+  font-size: 0.875em;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Gallery Image Previews */
+.image-previews {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.image-previews h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: var(--body-text);
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.image-preview-item {
+  text-align: center;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.image-container img {
+  width: 150px;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  border: 2px solid #e9ecef;
+}
+
+.clickable-image {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clickable-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background-color: rgba(220, 53, 69, 1);
+  transform: scale(1.1);
+}
+
+/* Collapsible section styles */
+.collapsible-section {
+  margin: 1.5rem 0;
+}
+
+.collapsible-toggle {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.collapsible-toggle:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+.extra-fields {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+/* Image Modal Styles */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+
+.image-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: rgba(220, 53, 69, 0.9);
+  color: white;
+  transform: scale(1.1);
+}
+
+.modal-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.modal-nav-btn.prev {
+  left: -70px;
+}
+
+.modal-nav-btn.next {
+  right: -70px;
+}
+
+.modal-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  max-height: calc(90vh - 100px);
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-image-info {
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+.modal-image-info p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+    max-height: 95vh;
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .image-container img {
+    width: 120px;
+    height: 100px;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .form-buttons .btn {
+    width: 100%;
+  }
+  
+  .modal-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+  
+  .modal-nav-btn.prev {
+    left: -50px;
+  }
+  
+  .modal-nav-btn.next {
+    right: -50px;
+  }
+  
+  .modal-close-btn {
+    top: -5px;
+    right: -5px;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+  }
+  
+  .modal-image-info {
+    margin-top: 15px;
+    padding: 8px 15px;
+  }
+  
+  .modal-image-info p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 1rem;
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .image-container img {
+    width: 100px;
+    height: 80px;
+  }
+  
+  .modal-nav-btn.prev {
+    left: 10px;
+  }
+  
+  .modal-nav-btn.next {
+    right: 10px;
+  }
+  
+  .modal-nav-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+  }
 }

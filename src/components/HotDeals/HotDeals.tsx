@@ -22,7 +22,11 @@ interface HotDealsAd {
   _createTime: string;
 }
 
-const HotDeals: React.FC = () => {
+interface HotDealsProps {
+  category?: string; // Optional category parameter for filtering
+}
+
+const HotDeals: React.FC<HotDealsProps> = ({ category }) => {
   const [ads, setAds] = useState<HotDealsAd[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +39,13 @@ const HotDeals: React.FC = () => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(createApiUrl('/hot_deals_ads'));
+        // Build URL with optional category parameter
+        let url = '/hot_deals_ads';
+        if (category) {
+          url += `?categories=${encodeURIComponent(category)}`;
+        }
+        
+        const response = await fetch(createApiUrl(url));
         
         if (!response.ok) {
           throw new Error(`Failed to fetch hot deals ads: ${response.status} ${response.statusText}`);
@@ -73,7 +83,7 @@ const HotDeals: React.FC = () => {
     };
 
     fetchHotDealsAds();
-  }, []);
+  }, [category]); // Re-fetch when category changes
 
   // Auto-scroll functionality with infinite loop
   useEffect(() => {

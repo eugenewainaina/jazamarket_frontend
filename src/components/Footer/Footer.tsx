@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
         <div className="footer-column">
           <h4>USEFUL LINKS</h4>
           <ul>
-            <li><Link to="/dashboard">Dashboard</Link></li>
+            {/* <li><Link to="/dashboard">Dashboard</Link></li> */}
             <li>
               <button 
                 type="button" 

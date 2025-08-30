@@ -12,6 +12,14 @@ interface PostAdFormProps {
   onSuccess: () => void;
 }
 
+interface ProcessedImage {
+  id: string;
+  file: File;
+  preview: string;
+  originalSize: number;
+  compressedSize: number;
+}
+
 const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -34,10 +42,14 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
   });
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [images, setImages] = useState<ProcessedImage[]>([]);
+  const [isProcessingImages, setIsProcessingImages] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState({
     name: '',
     price: '',
     location: '',
+    images: '',
     server: '',
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +73,110 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
+  // Image processing utility functions
+  const resizeImageTo1080p = (file: File, quality: number = 0.85): Promise<Blob> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d')!;
+      const img = new Image();
+      
+      img.onload = function() {
+        // 1080p dimensions (1920x1080)
+        const MAX_WIDTH = 1920;
+        const MAX_HEIGHT = 1080;
+        
+        let { width, height } = img;
+        
+        // Check if image is already within 1080p limits
+        if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
+          // Image is already small enough, return original file as blob
+          const reader = new FileReader();
+          reader.onload = () => {
+            const arrayBuffer = reader.result as ArrayBuffer;
+            const blob = new Blob([arrayBuffer], { type: file.type });
+            resolve(blob);
+          };
+          reader.readAsArrayBuffer(file);
+          return;
+        }
+        
+        // Calculate aspect ratio for resizing
+        const aspectRatio = width / height;
+        
+        // Resize to fit within 1080p while maintaining aspect ratio
+        if (aspectRatio > MAX_WIDTH / MAX_HEIGHT) {
+          // Image is wider than 16:9 ratio
+          width = MAX_WIDTH;
+          height = MAX_WIDTH / aspectRatio;
+        } else {
+          // Image is taller than 16:9 ratio
+          height = MAX_HEIGHT;
+          width = MAX_HEIGHT * aspectRatio;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Draw the resized image
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Convert to blob with quality control (only for oversized images)
+        canvas.toBlob((blob) => {
+          resolve(blob!);
+        }, 'image/jpeg', quality);
+      };
+      
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const processImages = async (files: FileList): Promise<ProcessedImage[]> => {
+    const processedImages: ProcessedImage[] = [];
+    
+    for (let i = 0; i < Math.min(files.length, 10); i++) {
+      const file = files[i];
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        throw new Error(`${file.name} is not an image file`);
+      }
+      
+      // Check original file size (20MB max before processing)
+      if (file.size > 20 * 1024 * 1024) {
+        throw new Error(`${file.name} is too large. Please select a smaller image.`);
+      }
+      
+      try {
+        // Resize to 1080p max (or keep original if smaller)
+        const resizedBlob = await resizeImageTo1080p(file, 0.85);
+        
+        // Check if the image was actually resized (different size means it was processed)
+        const wasResized = resizedBlob.size !== file.size || resizedBlob.type !== file.type;
+        
+        // Create new file object with appropriate name and type
+        const processedFile = new File([resizedBlob], 
+          wasResized ? `processed_${file.name.replace(/\.[^/.]+$/, '.jpg')}` : file.name, {
+          type: resizedBlob.type,
+          lastModified: Date.now()
+        });
+        
+        const processedImage: ProcessedImage = {
+          id: `img_${Date.now()}_${i}`,
+          file: processedFile,
+          preview: URL.createObjectURL(resizedBlob),
+          originalSize: file.size,
+          compressedSize: resizedBlob.size
+        };
+        
+        processedImages.push(processedImage);
+      } catch (error) {
+        throw new Error(`Error processing ${file.name}`);
+      }
+    }
+    
+    return processedImages;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -74,13 +190,122 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
 
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      setFile(selectedFile);
-      setImagePreview(URL.createObjectURL(selectedFile));
+      
+      // Validate file type
+      if (!selectedFile.type.startsWith('image/')) {
+        setErrors((prev) => ({ ...prev, images: 'Please select a valid image file' }));
+        return;
+      }
+      
+      // Check file size (20MB max)
+      if (selectedFile.size > 20 * 1024 * 1024) {
+        setErrors((prev) => ({ ...prev, images: 'Image is too large. Please select a smaller image.' }));
+        return;
+      }
+
+      // Process the main image through the resizing function
+      resizeImageTo1080p(selectedFile, 0.85).then(resizedBlob => {
+        const wasResized = resizedBlob.size !== selectedFile.size || resizedBlob.type !== selectedFile.type;
+        
+        const processedFile = new File([resizedBlob], 
+          wasResized ? `processed_${selectedFile.name.replace(/\.[^/.]+$/, '.jpg')}` : selectedFile.name, {
+          type: resizedBlob.type,
+          lastModified: Date.now()
+        });
+
+        setFile(processedFile);
+        setImagePreview(URL.createObjectURL(resizedBlob));
+      }).catch(() => {
+        setErrors((prev) => ({ ...prev, images: 'Error processing image' }));
+      });
     } else {
       setFile(null);
       setImagePreview(null);
     }
   };
+
+  const handleImageGalleryChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    
+    setIsProcessingImages(true);
+    setErrors((prev) => ({ ...prev, images: '' }));
+    
+    try {
+      // Check if adding these images would exceed the limit
+      const totalImages = images.length + e.target.files.length;
+      if (totalImages > 10) {
+        throw new Error(`You can only upload up to 10 images. You currently have ${images.length} image(s) and are trying to add ${e.target.files.length} more.`);
+      }
+      
+      const newProcessedImages = await processImages(e.target.files);
+      setImages(prev => [...prev, ...newProcessedImages]);
+      
+      // Clear the input to allow selecting the same files again if needed
+      e.target.value = '';
+    } catch (error) {
+      setErrors((prev) => ({ 
+        ...prev, 
+        images: error instanceof Error ? error.message : 'Error processing images' 
+      }));
+    } finally {
+      setIsProcessingImages(false);
+    }
+  };
+
+  const removeImage = (imageId: string) => {
+    setImages(prev => {
+      const imageToRemove = prev.find(img => img.id === imageId);
+      if (imageToRemove) {
+        URL.revokeObjectURL(imageToRemove.preview);
+      }
+      return prev.filter(img => img.id !== imageId);
+    });
+  };
+
+  const openImageModal = (index: number) => {
+    setSelectedImageIndex(index);
+  };
+
+  const closeImageModal = () => {
+    setSelectedImageIndex(null);
+  };
+
+  const navigateImage = (direction: 'prev' | 'next') => {
+    if (selectedImageIndex === null) return;
+    
+    if (direction === 'prev') {
+      setSelectedImageIndex(prev => 
+        prev === null || prev === 0 ? images.length - 1 : prev - 1
+      );
+    } else {
+      setSelectedImageIndex(prev => 
+        prev === null || prev === images.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  // Handle keyboard navigation for image modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedImageIndex === null) return;
+      
+      if (e.key === 'Escape') {
+        closeImageModal();
+      } else if (e.key === 'ArrowLeft') {
+        navigateImage('prev');
+      } else if (e.key === 'ArrowRight') {
+        navigateImage('next');
+      }
+    };
+
+    if (selectedImageIndex !== null) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedImageIndex]);
 
   useEffect(() => {
     // Cleanup the object URL on component unmount
@@ -88,6 +313,7 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview);
       }
+      images.forEach(img => URL.revokeObjectURL(img.preview));
     };
   }, [imagePreview]);
 
@@ -100,7 +326,13 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
     const locationError = formData.location ? '' : 'Location is required';
 
     if (nameError || priceError || locationError) {
-      setErrors({ name: nameError, price: priceError, location: locationError, server: '' });
+      setErrors({ 
+        name: nameError, 
+        price: priceError, 
+        location: locationError, 
+        images: '',
+        server: '' 
+      });
       return;
     }
 
@@ -116,6 +348,11 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
     if (file) {
       postData.append('ad_image', file);
     }
+
+    // Append all gallery images
+    images.forEach((image, index) => {
+      postData.append(`ad_image_gallery_${index}`, image.file);
+    });
 
     if (formData.category === 'Vehicles') {
       postData.append('make', formData.make);
@@ -341,7 +578,7 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
           )}
 
           <div className="form-group">
-            <label htmlFor="ad_image">Image (Optional)</label>
+            <label htmlFor="ad_image">Main Ad Image (Profile Picture)</label>
             <input
               type="file"
               id="ad_image"
@@ -349,12 +586,121 @@ const PostAdForm: React.FC<PostAdFormProps> = ({ onClose, onSuccess }) => {
               accept="image/*"
               onChange={handleFileChange}
             />
+            <div className="image-upload-info">
+              <small>
+                Upload the main image that will represent your ad. Images will be automatically resized to 1080p resolution.
+              </small>
+            </div>
             {imagePreview && (
               <div className="image-preview">
                 <img src={imagePreview} alt="Ad preview" />
               </div>
             )}
           </div>
+
+          {/* Image Gallery Section */}
+          <div className="form-group">
+            <label htmlFor="ad_images">Image Gallery (Up to 10 additional images)</label>
+            <input
+              type="file"
+              id="ad_images"
+              name="ad_images"
+              accept="image/*"
+              multiple
+              onChange={handleImageGalleryChange}
+              disabled={isProcessingImages || images.length >= 10}
+            />
+            <div className="image-upload-info">
+              <small>
+                Upload additional images for your ad gallery. Images will be automatically resized to 1080p resolution. 
+                {images.length > 0 && ` Currently ${images.length}/10 images selected.`}
+              </small>
+            </div>
+            {errors.images && <p className="error-message">{errors.images}</p>}
+            {isProcessingImages && <p className="processing-message">Processing images...</p>}
+          </div>
+
+          {/* Image Gallery Previews */}
+          {images.length > 0 && (
+            <div className="image-previews">
+              <h4>Image Gallery Previews</h4>
+              <div className="image-grid">
+                {images.map((image, index) => (
+                  <div key={image.id} className="image-preview-item">
+                    <div className="image-container">
+                      <img 
+                        src={image.preview} 
+                        alt={`Gallery Preview ${index + 1}`}
+                        onClick={() => openImageModal(index)}
+                        className="clickable-image"
+                        title="Click to view full size"
+                      />
+                      <button
+                        type="button"
+                        className="remove-image-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeImage(image.id);
+                        }}
+                        title="Remove image"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Image Modal */}
+          {selectedImageIndex !== null && (
+            <div className="image-modal-overlay" onClick={closeImageModal}>
+              <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+                <button
+                  type="button"
+                  className="modal-close-btn"
+                  onClick={closeImageModal}
+                  title="Close (Esc)"
+                >
+                  ×
+                </button>
+                
+                {images.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      className="modal-nav-btn prev"
+                      onClick={() => navigateImage('prev')}
+                      title="Previous image (←)"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      className="modal-nav-btn next"
+                      onClick={() => navigateImage('next')}
+                      title="Next image (→)"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
+                
+                <div className="modal-image-container">
+                  <img
+                    src={images[selectedImageIndex].preview}
+                    alt={`Full size preview ${selectedImageIndex + 1}`}
+                    className="modal-image"
+                  />
+                </div>
+                
+                <div className="modal-image-info">
+                  <p>Image {selectedImageIndex + 1} of {images.length}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="form-buttons">
             <button type="button" className="btn btn-cancel" onClick={onClose}>Cancel</button>

@@ -133,3 +133,67 @@
     height: 280px; /* Fixed height for consistent layout on larger screens */
   }
 }
+
+/* Premium Ad Styling - Golden Background for Non-Explorer Packages */
+.ad-card.premium-ad {
+  border: 1px solid #ffd700;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff6b35 100%);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-card.premium-ad:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.ad-card.premium-ad:hover:before {
+  left: 100%;
+}
+
+.ad-card.premium-ad:hover {
+  background: linear-gradient(135deg, #ffed4e 0%, #ffc947 50%, #ff5722 100%);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  transform: translateY(-2px);
+}
+
+.ad-card.premium-ad.selected {
+  border-color: #ff6b35;
+  box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+}
+
+/* Enhanced text readability on golden background for premium ads */
+.ad-card.premium-ad .ad-name {
+  color: #1a202c;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.ad-card.premium-ad .ad-description {
+  color: #2d3748;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.ad-card.premium-ad .ad-posted-date {
+  color: #4a5568;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.ad-card.premium-ad .ad-location {
+  color: #4a5568;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.ad-card.premium-ad .ad-price {
+  color: #c53030;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+}

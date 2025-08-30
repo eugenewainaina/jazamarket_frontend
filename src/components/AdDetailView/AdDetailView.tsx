@@ -118,8 +118,11 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
     );
   }
 
+  // Check if ad should have golden background (all packages except Explorer)
+  const hasGoldenBackground = ad.package && ad.package !== 'Explorer';
+
   return (
-    <div className="ad-detail-view">
+    <div className={`ad-detail-view ${hasGoldenBackground ? 'premium-ad-detail' : ''}`}>
       <div className="ad-detail-content">
         <button className="close-button" onClick={onClose}>×</button>
         <div className="ad-detail-header">

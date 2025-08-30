@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Ad from "../../components/Ad/Ad";
 import AdDetailView from "../../components/AdDetailView/AdDetailView";
 import BannerCarousel from "../../components/Banner/BannerCarousel";
+import HotDeals from "../../components/HotDeals/HotDeals";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import type { BaseAd, VehicleAd, PropertyAd } from "../../types/ads";
 import { createApiUrl } from "../../utils/api";
@@ -111,6 +112,10 @@ const AdCategoryPage: React.FC = () => {
         className="top-category-banner"
       />
       <h1 className="category-title">{displayCategoryName}</h1>
+      
+      {/* Hot Deals section for this category */}
+      <HotDeals category={displayCategoryName} />
+      
       <div className="ads-grid">
         {Array.isArray(ads) && ads.length > 0 ? (
           ads.filter(ad => ad && ad._id).map((ad) => (
