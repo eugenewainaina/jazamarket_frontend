@@ -42,7 +42,7 @@ const HotDeals: React.FC<HotDealsProps> = ({ category }) => {
         // Build URL with optional category parameter
         let url = '/hot_deals_ads';
         if (category) {
-          url += `?categories=${encodeURIComponent(category)}`;
+          url += `?category=${encodeURIComponent(category)}`;
         }
         
         const response = await fetch(createApiUrl(url));
