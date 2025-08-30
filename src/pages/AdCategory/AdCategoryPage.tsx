@@ -7,7 +7,6 @@ import HotDeals from "../../components/HotDeals/HotDeals";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import type { BaseAd, VehicleAd, PropertyAd } from "../../types/ads";
 import { createApiUrl } from "../../utils/api";
-import { categoryNameToKey, categoryKeyToName } from "../../utils/formatters";
 import { sortAdsByPackagePriority } from "../../utils/packagePriority";
 import { useSEO } from "../../hooks/useSEO";
 import "./AdCategoryPage.css";
@@ -19,13 +18,12 @@ const AdCategoryPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedAd, setSelectedAd] = useState<BaseAd | VehicleAd | PropertyAd | null>(null);
 
-  // Convert category name from URL to category key for SEO
-  const categoryKey = categoryName ? categoryNameToKey(categoryName) : undefined;
-  const displayCategoryName = categoryKey ? categoryKeyToName(categoryKey) : categoryName || '';
+  // Use category name directly for SEO and display
+  const displayCategoryName = categoryName || '';
 
   // Apply SEO metadata for this category
   useSEO({
-    category: categoryKey,
+    category: categoryName,
     ogUrl: window.location.href,
   });
 

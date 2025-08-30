@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Categories.css';
 import { categories } from '../../data/categories';
-import { categoryNameToKey } from '../../utils/formatters';
 
 const Categories: React.FC = () => {
   return (
@@ -10,9 +9,8 @@ const Categories: React.FC = () => {
       <h2>Browse By Category</h2>
       <div className="categories-grid">
         {categories.map((category, index) => {
-          const categoryKey = categoryNameToKey(category);
           return (
-            <Link to={`/category/${categoryKey}`} key={index} className="category-item-link">
+            <Link to={`/category/${category}`} key={index} className="category-item-link">
               <div className="category-item">
                 <img
                   src={`/categories_photos/${category}.png`}

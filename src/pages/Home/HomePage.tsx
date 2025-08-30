@@ -4,7 +4,6 @@ import BannerCarousel from '../../components/Banner/BannerCarousel';
 import HomepageAds from '../../components/HomepageAds/HomepageAds';
 import HotDeals from '../../components/HotDeals/HotDeals';
 import { useSEO } from '../../hooks/useSEO';
-import { categoryNameToKey } from '../../utils/formatters';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -19,12 +18,12 @@ const HomePage: React.FC = () => {
   const topBanners = [
     {
       imageUrl: "/banners/top-home-banner.png",
-      linkTo: `/category/${categoryNameToKey('Vehicles')}`,
+      linkTo: `/category/Vehicles`,
       altText: "Top Promotional Banner"
     },
     {
       imageUrl: "/banners/autospot-kenya-banner.png",
-      linkTo: `/category/${categoryNameToKey('Vehicles')}`,
+      linkTo: `/category/Vehicles`,
       altText: "Autospot Kenya - Drive Quality, Drive Confidence"
     }
   ];
@@ -32,12 +31,12 @@ const HomePage: React.FC = () => {
   const bottomBanners = [
     {
       imageUrl: "/banners/bottom-home-banner.png",
-      linkTo: `/category/${categoryNameToKey('Property & Rentals')}`,
+      linkTo: `/category/Property & Rentals`,
       altText: "Bottom Promotional Banner"
     },
     {
       imageUrl: "/banners/autospot-kenya-banner.png",
-      linkTo: `/category/${categoryNameToKey('Vehicles')}`,
+      linkTo: `/category/Vehicles`,
       altText: "Autospot Kenya - Drive Quality, Drive Confidence"
     }
   ];

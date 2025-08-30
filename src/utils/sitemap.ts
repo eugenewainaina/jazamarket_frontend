@@ -1,5 +1,4 @@
 import { categories } from '../data/categories';
-import { categoryNameToKey } from './formatters';
 
 export interface SitemapUrl {
   loc: string;
@@ -25,9 +24,8 @@ export const generateSitemapUrls = (baseUrl: string = 'https://jazamarket.com'):
 
   // Category pages
   categories.forEach(category => {
-    const categoryKey = categoryNameToKey(category);
     urls.push({
-      loc: `${baseUrl}/category/${categoryKey}`,
+      loc: `${baseUrl}/category/${category}`,
       lastmod: currentDate,
       changefreq: 'daily',
       priority: 0.8

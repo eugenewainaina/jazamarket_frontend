@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './CategorySidebar.css';
 import { categories } from '../../data/categories';
-import { categoryNameToKey } from '../../utils/formatters';
 
 const CategorySidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -29,10 +28,9 @@ const CategorySidebar: React.FC = () => {
       </div>
       <div className={`sidebar-categories ${isCollapsed ? 'collapsed' : 'expanded'}`}>
         {categories.map((category, index) => {
-          const categoryKey = categoryNameToKey(category);
           return (
             <Link 
-              to={`/category/${categoryKey}`} 
+              to={`/category/${category}`} 
               key={index} 
               className="sidebar-category-link"
               onClick={() => setIsCollapsed(true)} // Close menu when category is selected on mobile
