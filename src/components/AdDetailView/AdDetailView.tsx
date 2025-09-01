@@ -87,23 +87,33 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
   const handleDeleteClick = async () => {
     if (window.confirm('Are you sure you want to delete this ad?')) {
       try {
-        const response = await fetch(createApiUrl(`/delete_ad/${ad._id}`), {
+        const response = await fetch(createApiUrl(`/delete_ad?ad_id=${ad._id}`), {
           method: 'DELETE',
           credentials: 'include',
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to delete ad');
+        if (response.status === 200) {
+          console.log('Ad deleted successfully');
+          if (onAdUpdated) {
+            onAdUpdated();
+          }
+          onClose();
+        } else {
+          // Handle error response - extract message from response body
+          let errorMessage = 'Failed to delete ad';
+          try {
+            const errorData = await response.json();
+            if (errorData.message) {
+              errorMessage = errorData.message;
+            }
+          } catch (parseError) {
+            console.error('Error parsing error response:', parseError);
+          }
+          throw new Error(errorMessage);
         }
-
-        console.log('Ad deleted successfully');
-        if (onAdUpdated) {
-          onAdUpdated();
-        }
-        onClose();
       } catch (error) {
         console.error('Error deleting ad:', error);
-        alert('There was an error deleting the ad. Please try again.');
+        alert(`There was an error deleting the ad: ${error instanceof Error ? error.message : 'Please try again.'}`);
       }
     }
   };
