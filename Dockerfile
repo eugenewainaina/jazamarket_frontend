@@ -1,15 +1,20 @@
 # Stage 1: Build the React application
-FROM node:20-alpine as build
+FROM node:22-alpine as build
 
+# Set working directory
 WORKDIR /app
 
-# Copy package files
+# Add build arguments for optimization
+ENV NODE_ENV=production
+ENV GENERATE_SOURCEMAP=false
+
+# Copy package files for dependency caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (this layer will be cached if package.json doesn't change)
+RUN npm ci --silent && npm cache clean --force
 
-# Copy source code
+# Copy source code (done after npm install for better caching)
 COPY . .
 
 # Build the application
@@ -18,7 +23,10 @@ RUN npm run build
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
-# Copy built application
+# Remove default nginx static assets
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy built application from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration
