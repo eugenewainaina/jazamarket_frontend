@@ -1,17 +1,17 @@
 # Stage 1: Build the React application
-FROM node:22-alpine as build
+FROM node:22-alpine AS build
 
 # Set working directory
 WORKDIR /app
 
 # Add build arguments for optimization
-ENV NODE_ENV=production
 ENV GENERATE_SOURCEMAP=false
 
 # Copy package files for dependency caching
 COPY package*.json ./
 
 # Install dependencies (this layer will be cached if package.json doesn't change)
+# Note: We need dev dependencies for building, so we don't set NODE_ENV=production yet
 RUN npm ci --silent && npm cache clean --force
 
 # Copy source code (done after npm install for better caching)
