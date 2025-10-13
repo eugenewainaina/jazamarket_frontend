@@ -16,6 +16,8 @@ interface HomepageAd {
   description: string;
   location: string;
   adImageURL: string;
+  imageLinks?: string[];
+  galleryURL?: string[];
   category: string;
   subcategory: string;
   package: string;
@@ -86,20 +88,28 @@ const HomepageAds: React.FC = () => {
     setSelectedAd(null);
   };
 
-  // Convert HomepageAd to BaseAd format for the Ad component
-  const convertToBaseAd = (homepageAd: HomepageAd): BaseAd => ({
-    _id: homepageAd._id,
-    name: homepageAd.name,
-    description: homepageAd.description,
-    location: homepageAd.location,
-    price: homepageAd.price,
-    category: homepageAd.category,
-    subcategory: homepageAd.subcategory,
-    adImageURL: homepageAd.adImageURL,
-    accountID: homepageAd.accountID,
-    _createTime: homepageAd._createTime,
-    package: homepageAd.package,
-  });
+  // Merge all possible image sources into one array.
+  const convertToBaseAd = (homepageAd: HomepageAd): BaseAd => {
+    const allImages = [
+      ...(homepageAd.imageLinks || []),
+      ...(homepageAd.galleryURL || []),
+    ];
+
+    return {
+      _id: homepageAd._id,
+      name: homepageAd.name,
+      description: homepageAd.description,
+      location: homepageAd.location,
+      price: homepageAd.price,
+      category: homepageAd.category,
+      subcategory: homepageAd.subcategory,
+      adImageURL: homepageAd.adImageURL,
+      imageLinks: allImages,
+      accountID: homepageAd.accountID,
+      _createTime: homepageAd._createTime,
+      package: homepageAd.package,
+    };
+  };  
 
   if (loading) {
     return (
