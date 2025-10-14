@@ -9,6 +9,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import ContactDetails from '../ContactDetails/ContactDetails';
 import BoostPackagesPopup from '../BoostPackagesPopup/BoostPackagesPopup';
 import { createApiUrl } from '../../utils/api';
+import AdImageCarousel from '../AdDetailViewCarousel/carousel';
 
 interface AdDetailViewProps {
   ad: BaseAd | VehicleAd | PropertyAd | MyAdSummary;
@@ -20,39 +21,59 @@ interface AdDetailViewProps {
 const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentImages, setCurrentImages] = useState<string[]>(ad.imageLinks || []);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [carouselFullscreen, setCarouselFullscreen] = useState(false);
   const [showBoostPopup, setShowBoostPopup] = useState(false);
 
-  // Sync local state when ad prop changes (after refresh)
   useEffect(() => {
     setCurrentImages(ad.imageLinks || []);
   }, [ad.imageLinks]);
+  const galleryImages = [ad.adImageURL, ...(ad.imageLinks || [])].filter(Boolean) as string[];
+  // const galleryImages = (ad.imageLinks || []).filter(Boolean) as string[];
 
+  // Handlers
   const handleEditSuccess = () => {
     setIsEditing(false);
-    if (onAdUpdated) {
-      onAdUpdated();
-    }
+    onAdUpdated?.();
     onClose();
   };
 
   const handleImagesUpdated = (newImages: string[]) => {
     setCurrentImages(newImages);
-    if (onAdUpdated) {
-      onAdUpdated();
+    onAdUpdated?.();
+  };
+
+  const handleBoostAd = () => setShowBoostPopup(true);
+  const handleCloseBoostPopup = () => setShowBoostPopup(false);
+  const handleEditClick = () => setIsEditing(true);
+
+  const handleDeleteClick = async () => {
+    if (!window.confirm('Are you sure you want to delete this ad?')) return;
+
+    try {
+      const response = await fetch(createApiUrl(`/delete_ad?ad_id=${ad._id}`), {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        onAdUpdated?.();
+        onClose();
+      } else {
+        let errorMessage = 'Failed to delete ad';
+        try {
+          const errorData = await response.json();
+          if (errorData.message) errorMessage = errorData.message;
+        } catch {}
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      alert(`Error deleting ad: ${error instanceof Error ? error.message : 'Please try again.'}`);
     }
   };
 
-  const handleBoostAd = () => {
-    // Open the boost packages popup
-    setShowBoostPopup(true);
-  };
-
-  const handleCloseBoostPopup = () => {
-    setShowBoostPopup(false);
-  };
-
   const renderAdSpecificDetails = () => {
-    if ('make' in ad) { // It's a VehicleAd
+    if ('make' in ad) {
       const vehicle = ad as VehicleAd;
       return (
         <>
@@ -66,7 +87,7 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
         </>
       );
     }
-    if ('bedrooms' in ad) { // It's a PropertyAd
+    if ('bedrooms' in ad) {
       const property = ad as PropertyAd;
       return (
         <>
@@ -80,99 +101,74 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
     return null;
   };
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleDeleteClick = async () => {
-    if (window.confirm('Are you sure you want to delete this ad?')) {
-      try {
-        const response = await fetch(createApiUrl(`/delete_ad?ad_id=${ad._id}`), {
-          method: 'DELETE',
-          credentials: 'include',
-        });
-
-        if (response.status === 200) {
-          console.log('Ad deleted successfully');
-          if (onAdUpdated) {
-            onAdUpdated();
-          }
-          onClose();
-        } else {
-          // Handle error response - extract message from response body
-          let errorMessage = 'Failed to delete ad';
-          try {
-            const errorData = await response.json();
-            if (errorData.message) {
-              errorMessage = errorData.message;
-            }
-          } catch (parseError) {
-            console.error('Error parsing error response:', parseError);
-          }
-          throw new Error(errorMessage);
-        }
-      } catch (error) {
-        console.error('Error deleting ad:', error);
-        alert(`There was an error deleting the ad: ${error instanceof Error ? error.message : 'Please try again.'}`);
-      }
-    }
-  };
-
   if (isEditing) {
-    return (
-      <EditAdForm
-        ad={ad as MyAdSummary}
-        onClose={() => setIsEditing(false)}
-        onSuccess={handleEditSuccess}
-      />
-    );
+    return <EditAdForm ad={ad as MyAdSummary} onClose={() => setIsEditing(false)} onSuccess={handleEditSuccess} />;
   }
 
-  // Check if ad should have golden background (all packages except Explorer)
-  const hasGoldenBackground = ad.package && ad.package !== 'Explorer';
+  const isPremium = ad.package && ad.package !== 'Explorer';
 
   return (
-    <div className={`ad-detail-view ${hasGoldenBackground ? 'premium-ad-detail' : ''}`}>
+    <div className={`ad-detail-view ${isPremium ? 'premium-ad-detail' : ''}`}>
       <div className="ad-detail-content">
         <button className="close-button" onClick={onClose}>×</button>
+
         <div className="ad-detail-header">
           <h2>{ad.name}</h2>
           {isMyAd && (
             <div className="ad-actions">
-              <button className="action-btn edit-btn" onClick={handleEditClick}>
-                <FaEdit />
-                <span>Edit</span>
-              </button>
-              <button className="action-btn delete-btn" onClick={handleDeleteClick}>
-                <FaTrash />
-                <span>Delete</span>
-              </button>
+              <button className="action-btn edit-btn" onClick={handleEditClick}><FaEdit /><span>Edit</span></button>
+              <button className="action-btn delete-btn" onClick={handleDeleteClick}><FaTrash /><span>Delete</span></button>
             </div>
           )}
         </div>
+
         <div className="ad-detail-body">
+          {/* Carousel */}
           <div className="ad-detail-image-container">
-            <img src={ad.adImageURL} alt={ad.name} />
+            <AdImageCarousel
+              images={galleryImages}
+              adName={ad.name}
+              currentIndex={currentIndex}
+              onChangeIndex={setCurrentIndex}
+              isFullscreen={carouselFullscreen}
+              onFullscreenChange={setCarouselFullscreen}
+            />
+          <div/>
+
+          {/* Gallery */}
+          <div className="ad-detail-gallery-container">
+            <ImageGallery
+              images={galleryImages}
+              adName={ad.name}
+              currentIndex={currentIndex}
+              onThumbnailClick={setCurrentIndex}
+              onOpenFullscreen={() => {
+                setCurrentIndex(0);       // Always start from first image
+                setCarouselFullscreen(true);
+              }}
+              onChangeIndex={setCurrentIndex}  // Required for +x overlay
+            />
           </div>
+
+        </div>
+
+
+
+          {/* Ad Info */}
           <div className="ad-detail-info">
+            <p className="price-label">Price</p>
             <p className="price">{formatPrice(ad.price)}</p>
             <p><strong>Location:</strong> {ad.location}</p>
             <p><strong>Description:</strong> {ad.description}</p>
             <p><strong>Posted:</strong> {formatPostDate(ad._createTime)}</p>
             {renderAdSpecificDetails()}
-            
-            {/* Show contact details only for ads that are not the user's own */}
-            {!isMyAd && (
-              <ContactDetails adId={ad._id} adName={ad.name} />
-            )}
-            
+
+            {!isMyAd && <ContactDetails adId={ad._id} adName={ad.name} />}
+
             {isMyAd && (
               <>
                 <div className="boost-ad-section">
-                  <button className="boost-ad-detail" onClick={handleBoostAd}>
-                    <FaRocket />
-                    Boost Ad
-                  </button>
+                  <button className="boost-ad-detail" onClick={handleBoostAd}><FaRocket />Boost Ad</button>
                   <p className="boost-ad-description">Boost your Ad to reach more customers</p>
                 </div>
                 <ImageUpload
@@ -183,13 +179,10 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
                 />
               </>
             )}
-            
-            <ImageGallery images={currentImages} adName={ad.name} />
           </div>
         </div>
       </div>
-      
-      {/* Boost Packages Popup - only render if it's the user's ad */}
+
       {isMyAd && (
         <BoostPackagesPopup
           isOpen={showBoostPopup}

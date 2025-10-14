@@ -1,0 +1,182 @@
+/* ===== Hero Carousel (unchanged) ===== */
+.ad-image-carousel {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 2rem;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.carousel-image:hover {
+  transform: scale(1.01);
+  filter: brightness(1.02);
+}
+
+/* Arrows (hero) */
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 5;
+  opacity: 0.9;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-50%) scale(1.05);
+  opacity: 1;
+}
+
+.carousel-prev {
+  left: 12px;
+}
+
+.carousel-next {
+  right: 12px;
+}
+
+/* ===== Fullscreen Styles (updated) ===== */
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.fullscreen-content {
+  position: relative;
+  max-width: 80%;
+  max-height: 85%;
+  min-width: 80%;
+  min-height: 70%;
+  left: 1rem;
+}
+
+.fullscreen-image {
+  position: relative;
+  left: 14rem;
+  width: 57%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Close button (moved slightly outside the top-right) */
+.fullscreen-close {
+  position: absolute;
+  top: -40px;
+  left: 51rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 6px 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.fullscreen-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.05);
+}
+
+/* Navigation arrows in fullscreen (same size as hero) */
+.fullscreen-prev,
+.fullscreen-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease;
+  opacity: 0.9;
+}
+
+/* Appear outside the image area */
+.fullscreen-prev {
+  left: -60px;
+}
+
+.fullscreen-next {
+  right: -60px;
+}
+
+.fullscreen-prev:hover,
+.fullscreen-next:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-50%) scale(1.05);
+  opacity: 1;
+}
+.gallery-item.selected {
+  border: 2px solid #ff9800; /* highlight color for selected thumbnail */
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+.fullscreen-close {
+  left: 400px;
+}
+  
+  .fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.fullscreen-content {
+  position: relative;
+  max-width: 80%;
+  max-height: 100%;
+  top: 2rem;
+  left: 0rem;
+}
+
+.fullscreen-image {
+  position: relative;
+  left: 0rem;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+  
+}
