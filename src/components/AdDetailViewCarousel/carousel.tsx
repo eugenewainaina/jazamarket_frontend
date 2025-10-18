@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+// import { createPortal } from 'react-dom';
+
+// import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+
 import './carousel.css';
 
 interface AdImageCarouselProps {
@@ -8,7 +11,7 @@ interface AdImageCarouselProps {
   adName: string;
   currentIndex: number; // controlled index from parent
   onChangeIndex: (index: number) => void; // callback to parent
-  isFullscreen: boolean;                     // controlled fullscreen state
+  isFullscreen: boolean; // controlled fullscreen state
   onFullscreenChange: (state: boolean) => void; // notify parent
 }
 
@@ -18,40 +21,40 @@ const AdImageCarousel: React.FC<AdImageCarouselProps> = ({
   currentIndex,
   onChangeIndex,
   isFullscreen,
-  onFullscreenChange,
+  // onFullscreenChange,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const hasMultipleImages = images.length > 1;
 
   const showNext = () => {
     if (currentIndex === images.length - 1) {
-      if (isFullscreen) {
-        closeFullscreen(); // exit fullscreen if last image
-      } else {
-        onChangeIndex(0); // loop in non-fullscreen mode (optional)
-      }
+      // if (isFullscreen) {
+      //   closeFullscreen(); // exit fullscreen if last image
+      // } else {
+      onChangeIndex(0); // loop in non-fullscreen mode (optional)
+      // }
     } else {
       onChangeIndex(currentIndex + 1);
     }
   };
 
   const showPrev = () => {
-    if (currentIndex === 0 && isFullscreen) {
-      closeFullscreen(); // optional: exit fullscreen if user goes "prev" from first image
-    } else {
-      onChangeIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
-    }
+    // if (currentIndex === 0 && isFullscreen) {
+    //   closeFullscreen(); // optional: exit fullscreen if user goes "prev" from first image
+    // } else {
+    onChangeIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
+    // }
   };
 
-  const openFullscreen = () => {
-    onFullscreenChange(true);
-    document.body.style.overflow = 'hidden';
-  };
+  // const openFullscreen = () => {
+  //   onFullscreenChange(true);
+  //   document.body.style.overflow = 'hidden';
+  // };
 
-  const closeFullscreen = () => {
-    onFullscreenChange(false);
-    document.body.style.overflow = 'unset';
-  };
+  // const closeFullscreen = () => {
+  //   onFullscreenChange(false);
+  //   document.body.style.overflow = 'unset';
+  // };
 
   // Sync scroll for vertical carousel (optional)
   useEffect(() => {
@@ -64,14 +67,12 @@ const AdImageCarousel: React.FC<AdImageCarouselProps> = ({
     }
   }, [currentIndex, images]);
 
-  // Keyboard navigation
+  // Keyboard navigation (still works outside fullscreen)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isFullscreen) return;
-
       if (e.key === 'ArrowRight') showNext();
       if (e.key === 'ArrowLeft') showPrev();
-      if (e.key === 'Escape') closeFullscreen();
+      // if (isFullscreen && e.key === 'Escape') closeFullscreen();
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -85,7 +86,7 @@ const AdImageCarousel: React.FC<AdImageCarouselProps> = ({
           src={images[currentIndex]}
           alt={`${adName} - Image ${currentIndex + 1}`}
           className="carousel-image"
-          onClick={openFullscreen}
+          // onClick={openFullscreen}
         />
 
         {hasMultipleImages && (
@@ -100,6 +101,7 @@ const AdImageCarousel: React.FC<AdImageCarouselProps> = ({
         )}
       </div>
 
+      {/* 
       {isFullscreen &&
         createPortal(
           <div className="fullscreen-overlay">
@@ -134,6 +136,7 @@ const AdImageCarousel: React.FC<AdImageCarouselProps> = ({
           </div>,
           document.body
         )}
+      */}
     </>
   );
 };
