@@ -83,7 +83,7 @@ const HomepageAds: React.FC = () => {
       },
       {
         root: null,
-        rootMargin: "0px 0px 800px 0px", // start loading when near bottom
+        rootMargin: "0px 0px 1200px 0px", // start loading when near bottom
         threshold: 0.1,
       }
     );

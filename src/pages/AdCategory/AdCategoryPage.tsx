@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Ad from "../../components/Ad/Ad";
 import AdDetailView from "../../components/AdDetailView/AdDetailView";
@@ -11,13 +11,12 @@ import { sortAdsByPackagePriority } from "../../utils/packagePriority";
 import { useSEO } from "../../hooks/useSEO";
 import "./AdCategoryPage.css";
 
-const PAGE_SIZE = 10; // number of ads per page
+const PAGE_SIZE = 8;
 
 const AdCategoryPage: React.FC = () => {
   const { categoryName } = useParams<{ categoryName: string }>();
   const displayCategoryName = categoryName || "";
 
-  const [allAds, setAllAds] = useState<(BaseAd | VehicleAd | PropertyAd)[]>([]);
   const [ads, setAds] = useState<(BaseAd | VehicleAd | PropertyAd)[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -33,108 +32,78 @@ const AdCategoryPage: React.FC = () => {
     ogUrl: window.location.href,
   });
 
-  // Step 1: Fetch all ads once for the category
+  // 🔹 Fetch ads from backend
+const fetchCategoryAds = async (pageNum: number) => {
+  try {
+    const offset = pageNum * PAGE_SIZE;
+    const url = createApiUrl(
+      `/ce498158-a94b-43d6-b52b-c9d4efd5f33f/get_category_ads_v2/${displayCategoryName}?page=${offset}&limit=${PAGE_SIZE}`
+    );
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to fetch ads: ${response.statusText}`);
+
+    const text = await response.text();
+    const data = text.trim() ? JSON.parse(text) : [];
+    const adsArray = Array.isArray(data) ? data : [];
+
+    const sortedAds = sortAdsByPackagePriority(adsArray, (ad) => ad.package || "Explorer");
+
+    if (pageNum === 0) setAds(sortedAds);
+    else setAds((prev) => [...prev, ...sortedAds]);
+
+    setHasMore(sortedAds.length === PAGE_SIZE);
+  } catch (err) {
+    console.error("Error fetching category ads:", err);
+    setError(err instanceof Error ? err.message : "An unknown error occurred");
+  } finally {
+    setLoading(false);
+    setLoadingMore(false);
+  }
+};
+
+
+  // 🔹 On category change, reset + fetch first page
   useEffect(() => {
-    const fetchCategoryAds = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(
-          createApiUrl(`/2bf73dc1-0fe5-4e0b-aa4b-10f32ede6f4a/${displayCategoryName}`)
-        );
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch ads: ${response.status} ${response.statusText}`);
-        }
-
-        const text = await response.text();
-        let data = [];
-
-        if (text.trim()) {
-          try {
-            data = JSON.parse(text);
-          } catch (parseError) {
-            console.warn("Failed to parse response as JSON:", parseError);
-            data = [];
-          }
-        }
-
-        const adsArray = Array.isArray(data) ? data : [];
-
-        const sortedAds = sortAdsByPackagePriority(
-          adsArray,
-          (ad) => ad.package || "Explorer"
-        );
-
-        // Store all ads and display first page
-        setAllAds(sortedAds);
-        setAds(sortedAds.slice(0, PAGE_SIZE));
-        setHasMore(sortedAds.length > PAGE_SIZE);
-        setPage(0);
-      } catch (err) {
-        console.error("Error fetching ads:", err);
-        setError(err instanceof Error ? err.message : "An unknown error occurred");
-        setAds([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (displayCategoryName) fetchCategoryAds();
+    if (!displayCategoryName) return;
+    setAds([]);
+    setPage(0);
+    setHasMore(true);
+    setLoading(true);
+    fetchCategoryAds(0);
   }, [displayCategoryName]);
 
-  // Step 2: Infinite Scroll Trigger
+  // 🔹 Infinite scroll observer
   useEffect(() => {
-    if (!loaderRef.current) return;
+    if (!loaderRef.current || !hasMore) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !loadingMore) {
-          loadMoreAds();
+          setLoadingMore(true);
+          const nextPage = page + 1;
+          setPage(nextPage);
+          fetchCategoryAds(nextPage);
         }
       },
-      {
-        rootMargin: "0px 0px 800px 0px", // trigger earlier
-        threshold: 0.1,
-      }
+      { rootMargin: "0px 0px 1000px 0px", threshold: 0.1 }
     );
 
     observer.observe(loaderRef.current);
-    return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
-    };
-  }, [hasMore, loadingMore, ads]);
+    return () => observer.disconnect();
+  }, [hasMore, loadingMore, page, ads]);
 
-  // Step 3: Load next batch
-  const loadMoreAds = () => {
-    setLoadingMore(true);
-    setTimeout(() => {
-      const nextPage = page + 1;
-      const start = nextPage * PAGE_SIZE;
-      const end = start + PAGE_SIZE;
-      const newAds = allAds.slice(start, end);
 
-      setAds((prev) => [...prev, ...newAds]);
-      setPage(nextPage);
-      setHasMore(end < allAds.length);
-      setLoadingMore(false);
-    }, 400); // slight delay for UX
-  };
 
   const handleAdClick = (ad: BaseAd | VehicleAd | PropertyAd) => {
-    if (selectedAd && selectedAd._id === ad._id) {
-      setSelectedAd(null);
-    } else {
-      setSelectedAd(ad);
-    }
-  };
-
-  const handleCloseDetailView = () => {
-    setSelectedAd(null);
+    setSelectedAd((prev) => (prev && prev._id === ad._id ? null : ad));
   };
 
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="error-message">{error}</div>;
+
+
+
 
   return (
     <div className="category-page">
@@ -161,23 +130,28 @@ const AdCategoryPage: React.FC = () => {
                 isSelected={selectedAd?._id === ad._id}
               />
               {selectedAd && selectedAd._id === ad._id && (
-                <AdDetailView ad={selectedAd} onClose={handleCloseDetailView} isMyAd={false} />
+                <AdDetailView
+                  ad={selectedAd}
+                  onClose={() => setSelectedAd(null)}
+                  isMyAd={false}
+                />
               )}
             </React.Fragment>
           ))
         ) : (
           <div className="no-ads-message">
             <p>No ads found in this category.</p>
-            {error && <p className="error-details">Error: {error}</p>}
           </div>
         )}
       </div>
 
-      {/* Infinite Scroll Sentinel */}
-      <div ref={loaderRef} className="loader-trigger">
-        {loadingMore && <LoadingSpinner small/>}
+
+      <div ref={loaderRef} style={{ height: "40px", marginTop: "20px" }}>
+        {loadingMore && <LoadingSpinner small />}
         {!hasMore && <p className="no-more-ads">No more ads to show</p>}
       </div>
+
+  
     </div>
   );
 };
