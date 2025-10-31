@@ -16,16 +16,32 @@ const HomePage: React.FC = () => {
 
   // Define banners for the carousel
   const topBanners = [
+    // {
+    //   imageUrl: "/banners/top-home-banner.png",
+    //   linkTo: `/category/Vehicles`,
+    //   altText: "Top Promotional Banner"
+    // },
+    // {
+    //   imageUrl: "/banners/autospot-kenya-banner.png",
+    //   linkTo: `/category/Vehicles`,
+    //   altText: "Autospot Kenya - Drive Quality, Drive Confidence"
+    // }
     {
-      imageUrl: "/banners/top-home-banner.png",
+      imageUrl: "/banners/1.JPG",
       linkTo: `/category/Vehicles`,
       altText: "Top Promotional Banner"
     },
     {
-      imageUrl: "/banners/autospot-kenya-banner.png",
+      imageUrl: "/banners/3.JPG",
       linkTo: `/category/Vehicles`,
       altText: "Autospot Kenya - Drive Quality, Drive Confidence"
+    },
+    {
+      imageUrl: "/banners/2.JPG",
+      linkTo: `/category/Vehicles`,
+      altText: "Top Promotional Banner"
     }
+
   ];
 
   const bottomBanners = [

@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
         <div className="login-container">
           <div className="new-customer">
             <h3>New Customer</h3>
-            <p>Donot have an account? <a href="/signup">Create your account</a></p>
+            <p>Do not have an account? <a href="/signup">Create your account</a></p>
             <p>It takes less than a minute</p>
           </div>
           <LoginForm />

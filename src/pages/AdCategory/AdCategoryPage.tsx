@@ -110,10 +110,10 @@ const fetchCategoryAds = async (pageNum: number) => {
       <BannerCarousel
         banners={[
           {
-            imageUrl: "/banners/top-category-banner.png",
+            imageUrl: "/banners/2.JPG",
             altText: "Top of Category Banner",
             linkTo: "/some-link",
-          },
+          }
         ]}
         className="top-category-banner"
       />
