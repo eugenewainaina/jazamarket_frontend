@@ -52,7 +52,7 @@ const AdDetailView: React.FC<AdDetailViewProps> = ({ ad, onClose, isMyAd, onAdUp
 
     try {
       const response = await fetch(createApiUrl(`/delete_ad_v2?ad_id=${ad._id}`), {
-        method: 'DELETE',
+        method: 'POST',
         credentials: 'include',
       });
 
