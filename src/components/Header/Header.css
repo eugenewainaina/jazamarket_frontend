@@ -1,57 +1,85 @@
+/* Header Base */
 .header {
-    background-color: var(--dark-blue);
-    border-bottom: 1px solid #0a3d91;
+  position: relative;
+  top: 0;
+  width: 100%;
+  background-color: var(--dark-blue);
+  border-bottom: 1px solid #0a3d91;
+  z-index: 1002;
 }
 
+/* Inner layout */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+/* Put menu + content side by side */
+.header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Burger menu button */
+.hamburger-menu,
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+  z-index: 1003;
+}
+
+/* Top bar and main header reuse existing styling */
 .top-bar-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.hamburger-menu {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: white;
-}
-
-.top-bar-links {
-    display: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .top-bar-right {
-    position: relative;
+  position: relative;
 }
 
+.top-bar-links {
+  display: none;
+}
+
+/* Dropdown in top bar */
 .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdown-menu a {
-    padding: 0.5rem 1rem;
-    white-space: nowrap;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
 }
 
+/* Show desktop menu */
 @media (min-width: 768px) {
-    .hamburger-menu {
-        display: none;
-    }
+  .hamburger-menu,
+  .menu-toggle {
+    display: none;
+  }
 
-    .top-bar-links {
-        display: flex;
-        gap: 1rem;
-    }
+  .top-bar-links {
+    display: flex;
+    gap: 1rem;
+  }
 }
 
 .main-header {

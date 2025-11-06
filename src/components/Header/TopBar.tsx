@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { /*FaGlobe,*/ FaUser, FaPencilAlt, FaSignOutAlt } from "react-icons/fa";
+// import { /*FaGlobe,*/ FaUser, FaPencilAlt, FaSignOutAlt } from "react-icons/fa";
+import { /*FaGlobe,*/ FaUser, FaSignOutAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getCookie, eraseCookie } from "../../utils/cookies";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -101,12 +102,12 @@ const TopBar: React.FC = () => {
             <>
               <Link to="/login" className="top-bar-link">
                 <FaUser />
-                <span>Login</span>
+                {/* <span>Login</span> */}
               </Link>
-              <Link to="/signup" className="top-bar-link">
+              {/* <Link to="/signup" className="top-bar-link">
                 <FaPencilAlt />
                 <span>Sign Up</span>
-              </Link>
+              </Link> */}
             </>
           )}
         </div>

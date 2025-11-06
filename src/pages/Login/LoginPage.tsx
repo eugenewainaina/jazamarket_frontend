@@ -15,12 +15,16 @@ const LoginPage: React.FC = () => {
     <div className="login-page">
       <main className="login-main">
         <div className="login-container">
-          <div className="new-customer">
-            <h3>New Customer</h3>
-            <p>Do not have an account? <a href="/signup">Create your account</a></p>
-            <p>It takes less than a minute</p>
-          </div>
+
           <LoginForm />
+
+          <div className="new-customer">
+
+            <h3>New Customer?</h3>
+            <a href="/signup">Create an account</a>
+            <p>It takes less than a minute</p>
+
+          </div>
         </div>
       </main>
     </div>
