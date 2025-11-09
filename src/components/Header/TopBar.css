@@ -36,6 +36,9 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  position: relative;
+  right: 2.5rem;
+  top: 0.8rem;
 }
 
 .top-bar-link:hover {
@@ -99,4 +102,12 @@
 
 .logout-button {
   color: #d9534f;
+}
+
+@media (min-width: 768px) {
+  .top-bar-link {
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 19px;
+  }
 }

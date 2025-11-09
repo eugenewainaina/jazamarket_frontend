@@ -17,45 +17,40 @@ const HomePage: React.FC = () => {
   // Define banners for the carousel
   const topBanners = [
     // {
-    //   imageUrl: "/banners/top-home-banner.png",
+    //   imageUrl: "/banners/1.JPG",
     //   linkTo: `/category/Vehicles`,
     //   altText: "Top Promotional Banner"
     // },
     // {
-    //   imageUrl: "/banners/autospot-kenya-banner.png",
+    //   imageUrl: "/banners/3.JPG",
     //   linkTo: `/category/Vehicles`,
     //   altText: "Autospot Kenya - Drive Quality, Drive Confidence"
-    // }
+    // },
+    // {
+    //   imageUrl: "/banners/2.JPG",
+    //   linkTo: `/category/Vehicles`,
+    //   altText: "Top Promotional Banner"
+    // },
     {
-      imageUrl: "/banners/1.JPG",
+      imageUrl: "/banners/black_november.JPG",
       linkTo: `/category/Vehicles`,
       altText: "Top Promotional Banner"
     },
-    {
-      imageUrl: "/banners/3.JPG",
-      linkTo: `/category/Vehicles`,
-      altText: "Autospot Kenya - Drive Quality, Drive Confidence"
-    },
-    {
-      imageUrl: "/banners/2.JPG",
-      linkTo: `/category/Vehicles`,
-      altText: "Top Promotional Banner"
-    }
 
   ];
 
-  const bottomBanners = [
-    {
-      imageUrl: "/banners/bottom-home-banner.png",
-      linkTo: `/category/Property & Rentals`,
-      altText: "Bottom Promotional Banner"
-    },
-    {
-      imageUrl: "/banners/autospot-kenya-banner.png",
-      linkTo: `/category/Vehicles`,
-      altText: "Autospot Kenya - Drive Quality, Drive Confidence"
-    }
-  ];
+  // const bottomBanners = [
+  //   {
+  //     imageUrl: "/banners/bottom-home-banner.png",
+  //     linkTo: `/category/Property & Rentals`,
+  //     altText: "Bottom Promotional Banner"
+  //   },
+  //   {
+  //     imageUrl: "/banners/autospot-kenya-banner.png",
+  //     linkTo: `/category/Vehicles`,
+  //     altText: "Autospot Kenya - Drive Quality, Drive Confidence"
+  //   }
+  // ];
 
   return (
     <div className="homepage-container">
@@ -73,10 +68,10 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       
-      <BannerCarousel
+      {/* <BannerCarousel
         banners={bottomBanners}
         className="bottom-banner"
-      />
+      /> */}
     </div>
   );
 };

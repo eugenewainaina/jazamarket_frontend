@@ -83,7 +83,7 @@ const HomepageAds: React.FC = () => {
       },
       {
         root: null,
-        rootMargin: "0px 0px 1200px 0px", // start loading when near bottom
+        rootMargin: "0px 0px 1400px 0px", // start loading when near bottom
         threshold: 0.1,
       }
     );
@@ -208,7 +208,7 @@ const HomepageAds: React.FC = () => {
       </div>
 
       {/* Infinite Scroll Sentinel */}
-      <div ref={loaderRef} style={{ height: "40px", marginTop: "20px" }}>
+      <div ref={loaderRef} style={{ height: "80px", marginTop: "20px" }}>
         {loadingMore && <LoadingSpinner small />}
         {!hasMore && <p className="no-more-ads">No more ads to show</p>}
       </div>

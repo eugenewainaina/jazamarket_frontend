@@ -86,7 +86,7 @@ const fetchCategoryAds = async (pageNum: number) => {
           fetchCategoryAds(nextPage);
         }
       },
-      { rootMargin: "0px 0px 1000px 0px", threshold: 0.1 }
+      { rootMargin: "0px 0px 1400px 0px", threshold: 0.1 }
     );
 
     observer.observe(loaderRef.current);
@@ -109,8 +109,13 @@ const fetchCategoryAds = async (pageNum: number) => {
     <div className="category-page">
       <BannerCarousel
         banners={[
+          // {
+          //   imageUrl: "/banners/2.JPG",
+          //   altText: "Top of Category Banner",
+          //   linkTo: "/some-link",
+          // }
           {
-            imageUrl: "/banners/2.JPG",
+            imageUrl: "/banners/black_november.JPG",
             altText: "Top of Category Banner",
             linkTo: "/some-link",
           }
@@ -146,7 +151,7 @@ const fetchCategoryAds = async (pageNum: number) => {
       </div>
 
 
-      <div ref={loaderRef} style={{ height: "40px", marginTop: "20px" }}>
+      <div ref={loaderRef} style={{ height: "80px", marginTop: "20px" }}>
         {loadingMore && <LoadingSpinner small />}
         {!hasMore && <p className="no-more-ads">No more ads to show</p>}
       </div>
